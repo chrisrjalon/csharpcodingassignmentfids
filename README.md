@@ -18,7 +18,7 @@ To meet ABC Airport's specifications, the following requirements must be met:
 
 3. Record the Flight Actual Time, representing the actual time of arrival or departure.
 
-4. Include the Flight’s Airline Code and Flight Number to uniquely identify each flight.
+4. Include the Flight's Airline Code and Flight Number to uniquely identify each flight.
 
 5. Address Flight Codeshares, where multiple flights share the same parent flight ID. The airline code and flight number should be consolidated into the main flight associated with that parent flight ID.
 
