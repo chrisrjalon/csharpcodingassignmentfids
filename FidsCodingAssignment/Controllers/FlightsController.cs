@@ -1,4 +1,5 @@
-﻿using FidsCodingAssignment.Common.Models;
+﻿using FidsCodingAssignment.Common.Exceptions;
+using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,28 @@ public class FlightsController : ControllerBase
     [HttpGet("{flightId}/status")]
     public async Task<IActionResult> GetFlightStatus(int flightId)
     {
-        var flightStatus = await _flightService.GetFlightStatus(flightId);
-
-        return Ok(new FidsApiResponse<FlightStatus>(flightStatus));
+        try
+        {
+            var flightStatus = await _flightService.GetFlightStatus(flightId);
+            return Ok(FidsApiResponse<FlightStatus>.Success(flightStatus));
+        }
+        catch (FidsException ex)
+        {
+            return BadRequest(FidsApiResponse<FlightStatus>.Error(ex.Message, ex.Category));
+        }
+    }
+    
+    [HttpGet("delayed/{delta}")]
+    public async Task<IActionResult> GetDelayedFlights(long delta)
+    {
+        try
+        {
+            var delayedFlights = await _flightService.GetDelayedFlights(TimeSpan.FromMinutes(delta));
+            return Ok(FidsApiResponse<ICollection<Flight>>.Success(delayedFlights));
+        }
+        catch (FidsException ex)
+        {
+            return BadRequest(FidsApiResponse<ICollection<Flight>>.Error(ex.Message, ex.Category));
+        }
     }
 }

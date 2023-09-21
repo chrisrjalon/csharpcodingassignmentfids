@@ -4,9 +4,9 @@ namespace FidsCodingAssignment.Common.Exceptions;
 
 public class FidsException : Exception
 {
-    public ExceptionCategory Category { get; }
+    public ExceptionCategoryType Category { get; }
 
-    public FidsException(string errorMessage, ExceptionCategory category = ExceptionCategory.Error)
+    public FidsException(string errorMessage, ExceptionCategoryType category = ExceptionCategoryType.Error)
         : base(errorMessage)
     {
         Category = category;

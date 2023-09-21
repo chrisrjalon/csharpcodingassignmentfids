@@ -1,18 +1,33 @@
-﻿namespace FidsCodingAssignment.Common.Models;
+﻿using FidsCodingAssignment.Common.Enumerations;
 
-public class FidsApiResponse<T>
+namespace FidsCodingAssignment.Common.Models;
+
+public class FidsApiResponse<TResult>
 {
-    public T? Result { get; set; }
-
+    public TResult? Result { get; set; }
+    
     public string? ErrorMessage { get; set; }
 
-    public FidsApiResponse(T result)
+    public ExceptionCategoryType? ErrorCategory { get; set; }
+
+    private FidsApiResponse(string errorMessage, ExceptionCategoryType errorCategory)
+    {
+        ErrorMessage = errorMessage;
+        ErrorCategory = errorCategory;
+    }
+    
+    private FidsApiResponse(TResult result)
     {
         Result = result;
     }
     
-    public FidsApiResponse(string errorMessage)
+    public static FidsApiResponse<TResult> Success(TResult result)
     {
-        ErrorMessage = errorMessage;
+        return new FidsApiResponse<TResult>(result);
+    }
+    
+    public static FidsApiResponse<TResult> Error(string errorMessage, ExceptionCategoryType errorCategory = ExceptionCategoryType.Error)
+    {
+        return new FidsApiResponse<TResult>(errorMessage, errorCategory);
     }
 }

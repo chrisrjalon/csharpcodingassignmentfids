@@ -28,7 +28,7 @@ public class GateService : ServiceBase, IGateService
         var currentGateStatus = await _gateStatusRepository.GetCurrentGateStatus(gateId);
         
         if (currentGateStatus == null || currentGateStatus.FlightId.NullOrDefault())
-            throw new FidsException($"Gate {gate.Code} is not assigned to a flight at this moment.", ExceptionCategory.Info);
+            throw new FidsException($"Gate {gate.Code} is not assigned to a flight at this moment.", ExceptionCategoryType.Info);
 
         return currentGateStatus.Flight!.Map()!;
     }

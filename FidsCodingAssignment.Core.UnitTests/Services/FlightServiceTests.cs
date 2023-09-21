@@ -56,7 +56,7 @@ public class FlightServiceTests
                 Name = "SUN COUNTRY"
             },
             FlightStatus = FlightStatusType.Departed,
-            Bound = FlightBound.OutBound,
+            Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
             ScheduledDeparture = new DateTime(2023, 08, 08, 13, 00, 00),
             ActualDeparture = new DateTime(2023, 08, 08, 12, 49, 00),

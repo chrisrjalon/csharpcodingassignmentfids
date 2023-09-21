@@ -55,7 +55,7 @@ public class FlightEntity : IModifiableEntity
     /// <summary>
     /// Inbound or outbound flight.
     /// </summary>
-    public FlightBound Bound { get; set; }
+    public FlightBoundType Bound { get; set; }
     
     /// <summary>
     /// Scheduled departure time of the flight.

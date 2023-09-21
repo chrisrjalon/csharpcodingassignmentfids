@@ -8,8 +8,6 @@ public interface IFlightService : IService
     /// <summary>
     /// Create or update a flight.
     /// </summary>
-    /// <param name="flight"></param>
-    /// <returns></returns>
     Task SaveFlight(Flight flight);
     
     /// <summary>
@@ -21,6 +19,12 @@ public interface IFlightService : IService
     /// Get the current status of a flight.
     /// </summary>
     Task<FlightStatus> GetFlightStatus(int flightId);
+
+    /// <summary>
+    /// Get all flights that are delayed by a given delta.
+    /// </summary>
+    /// <returns></returns>
+    Task<ICollection<Flight>> GetDelayedFlights(TimeSpan delta, DateTime? reference = null);
     
     /// <summary>
     /// Get the status history of a flight.

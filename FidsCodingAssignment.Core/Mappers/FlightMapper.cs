@@ -5,11 +5,8 @@ namespace FidsCodingAssignment.Core.Mappers;
 
 public static class FlightMapper
 {
-    public static Flight? Map(this FlightEntity? flight)
+    public static Flight Map(this FlightEntity flight)
     {
-        if (flight == null)
-            return null;
-
         return new Flight
         {
             Id = flight.Id,
@@ -30,11 +27,8 @@ public static class FlightMapper
         };
     }
 
-    public static FlightEntity? Map(this Flight? flight)
+    public static FlightEntity Map(this Flight flight)
     {
-        if (flight == null)
-            return null;
-
         return new FlightEntity
         {
             Id = flight.Id,

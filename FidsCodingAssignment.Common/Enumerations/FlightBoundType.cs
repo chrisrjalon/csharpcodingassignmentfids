@@ -1,7 +1,7 @@
 ﻿namespace FidsCodingAssignment.Common.Enumerations;
 
-public enum FlightBound
+public enum FlightBoundType
 {
-    InBound,
-    OutBound
+    Inbound,
+    Outbound
 }

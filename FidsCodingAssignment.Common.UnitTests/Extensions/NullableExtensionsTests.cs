@@ -67,4 +67,34 @@ public class NullableExtensionsTests
         
         Assert.False(result);
     }
+    
+    [Fact]
+    public void NullOrDefault_NullDateTime_ReturnsTrue()
+    {
+        DateTime? value = null;
+        
+        var result = value.NullOrDefault();
+        
+        Assert.True(result);
+    }
+    
+    [Fact]
+    public void NullOrDefault_DefaultDateTime_ReturnsTrue()
+    {
+        DateTime? value = default;
+        
+        var result = value.NullOrDefault();
+        
+        Assert.True(result);
+    }
+    
+    [Fact]
+    public void NullOrDefault_CurrentDateTime_ReturnsTrue()
+    {
+        DateTime? value = DateTime.UtcNow;
+        
+        var result = value.NullOrDefault();
+        
+        Assert.False(result);
+    }
 }

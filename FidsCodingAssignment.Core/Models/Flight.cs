@@ -10,7 +10,7 @@ public class Flight
     public bool IsCodeShare { get; set; }
     public int? ParentFlightId { get; set; }
     public Flight? ParentFlight { get; set; }
-    public FlightBound Bound { get; set; }
+    public FlightBoundType Bound { get; set; }
     public DateTime ScheduledDeparture { get; set; }
     public DateTime? ActualDeparture { get; set; }
     public DateTime ScheduledArrival { get; set; }
