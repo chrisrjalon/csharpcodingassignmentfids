@@ -6,6 +6,13 @@ namespace FidsCodingAssignment.Core.Services;
 public interface IFlightService : IService
 {
     /// <summary>
+    /// Create or update a flight.
+    /// </summary>
+    /// <param name="flight"></param>
+    /// <returns></returns>
+    Task SaveFlight(Flight flight);
+    
+    /// <summary>
     /// Get a flight by airline code and flight number.
     /// </summary>
     Task<Flight> GetFlight(string airlineCode, int flightNumber);
@@ -13,7 +20,7 @@ public interface IFlightService : IService
     /// <summary>
     /// Get the current status of a flight.
     /// </summary>
-    Task<FlightStatusType> GetFlightStatus(int flightId);
+    Task<FlightStatus> GetFlightStatus(int flightId);
     
     /// <summary>
     /// Get the status history of a flight.

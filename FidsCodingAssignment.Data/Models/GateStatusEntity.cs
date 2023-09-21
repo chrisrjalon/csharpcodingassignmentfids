@@ -31,9 +31,19 @@ public class GateStatusEntity : IDeletableEntity
     public DateTime? DateDeleted { get; set; }
 
     /// <summary>
+    /// Gate Id for the gate status.
+    /// </summary>
+    public int GateId { get; set; }
+
+    /// <summary>
+    /// Gate for the gate status.
+    /// </summary>
+    public GateEntity? Gate { get; set; }
+    
+    /// <summary>
     /// Flight Id of the flight assigned to the gate.
     /// </summary>
-    public int FlightId { get; set; }
+    public int? FlightId { get; set; }
 
     /// <summary>
     /// Flight assigned to the gate.

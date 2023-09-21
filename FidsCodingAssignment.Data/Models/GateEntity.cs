@@ -48,5 +48,5 @@ public class GateEntity : IModifiableEntity, IDeletableEntity
     /// <summary>
     /// Current gate status.
     /// </summary>
-    public GateStatusType GateStatus { get; set; }
+    public GateStatusType? GateStatus { get; set; }
 }
