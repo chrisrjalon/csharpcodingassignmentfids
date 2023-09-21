@@ -3,7 +3,7 @@ using FidsCodingAssignment.Common.Enumerations;
 
 namespace FidsCodingAssignment.Core.Models;
 
-public class Flight
+public abstract class Flight
 {
     /// <summary>
     /// Flight Id.
@@ -44,16 +44,6 @@ public class Flight
     /// Actual arrival or departure time of the flight.
     /// </summary>
     public DateTime? ActualTime { get; set; }
-
-    /// <summary>
-    /// Estimated boarding time for departing flights.
-    /// </summary>
-    public DateTime? ScheduledBoardingTime { get; set; }
-    
-    /// <summary>
-    /// Actual boarding time for departing flights.
-    /// </summary>
-    public DateTime? ActualBoardingTime { get; set; }
     
     /// <summary>
     /// Domestic or international flight.
@@ -64,35 +54,12 @@ public class Flight
     /// Current status of the flight.
     /// </summary>
     public FlightStatusType FlightStatus { get; set; }
-
-    /// <summary>
-    /// Code of the gate the flight is assigned to.
-    /// </summary>
-    public string? GateCode => Gate?.Code;
     
     /// <summary>
     /// Navigation property for the airline.
     /// </summary>
     [JsonIgnore]
     public Airline? Airline { get; set; }
-    
-    /// <summary>
-    /// Navigation property for the gate.
-    /// </summary>
-    [JsonIgnore]
-    public Gate? Gate { get; set; }
-
-    /// <summary>
-    /// Navigation property for the origin airport.
-    /// </summary>
-    [JsonIgnore]
-    public Airport? OriginAirport { get; set; }
-    
-    /// <summary>
-    /// Navigation property for the destination airport.
-    /// </summary>
-    [JsonIgnore]
-    public Airport? DestinationAirport { get; set; }
     
     /// <summary>
     /// Navigation property for the parent flight.

@@ -105,13 +105,13 @@ public class FlightServiceTests
         var mockFlightRepo = mock.Mock<IFlightRepository>();
         
         mockFlightRepo
-            .Setup(x => x.GetActiveFlights())
-            .ReturnsAsync(Array.Empty<FlightEntity>());
+            .Setup(x => x.GetActiveFlights())!
+            .ReturnsAsync((ICollection<FlightEntity>?) null);
         
         var service = mock.Create<FlightService>();
         var result = await service.GetDelayedFlights(It.IsAny<TimeSpan>());
         
-        Assert.Empty(result);
+        Assert.Null(result);
     }
     
     [Fact]
@@ -128,6 +128,7 @@ public class FlightServiceTests
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
         var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
 
+        Assert.NotNull(result);
         Assert.Single(result);
         Assert.Collection(result,
             f1 =>
@@ -150,6 +151,7 @@ public class FlightServiceTests
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
         var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
 
+        Assert.NotNull(result);
         Assert.Single(result);
         Assert.Collection(result,
             f1 =>
@@ -172,6 +174,7 @@ public class FlightServiceTests
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
         var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
 
+        Assert.NotNull(result);
         Assert.Collection(result,
             f1 =>
             {
