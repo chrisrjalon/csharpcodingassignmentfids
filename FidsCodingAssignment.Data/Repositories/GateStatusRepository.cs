@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FidsCodingAssignment.Data.Repositories;
 
-public class GateStatusRepository : RepositoryBase<AirportGateStatusEntity>, IGateStatusRepository
+public class GateStatusRepository : RepositoryBase<GateStatusEntity>, IGateStatusRepository
 {
     public GateStatusRepository(IContext context) : base(context)
     {
     }
     
-    public async Task<AirportGateStatusEntity?> GetCurrentGateStatus(int gateId)
+    public async Task<GateStatusEntity?> GetCurrentGateStatus(int gateId)
     {
         return await Set
             .Include(x => x.Flight)

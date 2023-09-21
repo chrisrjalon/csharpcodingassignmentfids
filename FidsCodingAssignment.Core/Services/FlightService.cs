@@ -17,12 +17,6 @@ public class FlightService : ServiceBase, IFlightService
         _flightStatusRepository = flightStatusRepository;
     }
 
-    public async Task SaveFlight(Flight flight)
-    {
-        var isUpdating = flight.Id != default;
-        
-    }
-
     public async Task<Flight> GetFlight(string airlineCode, int flightNumber)
     {
         var flightEntity = await _flightRepository.GetFlight(airlineCode, flightNumber);

@@ -4,5 +4,5 @@ namespace FidsCodingAssignment.Core.Services;
 
 public interface IGateService : IService
 {
-    Task<Flight> GetActiveFlight(int gateId);
+    Task<Flight> GetActiveFlight(string gateCode);
 }

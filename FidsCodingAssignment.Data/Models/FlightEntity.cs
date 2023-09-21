@@ -36,7 +36,7 @@ public class FlightEntity : IModifiableEntity
     public AirlineEntity? Airline { get; set; }
     
     [ForeignKey(nameof(GateId))]
-    public AirportGateEntity? Gate { get; set; }
+    public GateEntity? Gate { get; set; }
     
     [ForeignKey(nameof(ParentFlightId))]
     public FlightEntity? ParentFlight { get; set; }

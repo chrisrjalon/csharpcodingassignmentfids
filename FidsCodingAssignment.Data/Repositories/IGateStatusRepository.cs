@@ -2,7 +2,7 @@
 
 namespace FidsCodingAssignment.Data.Repositories;
 
-public interface IGateStatusRepository : IRepository<AirportGateStatusEntity>
+public interface IGateStatusRepository : IRepository<GateStatusEntity>
 {
-    Task<AirportGateStatusEntity?> GetCurrentGateStatus(int gateId);
+    Task<GateStatusEntity?> GetCurrentGateStatus(int gateId);
 }

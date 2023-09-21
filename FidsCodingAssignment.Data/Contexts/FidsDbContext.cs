@@ -18,8 +18,8 @@ public class FidsDbContext : DbContext, IContext
     public DbSet<AirportEntity> Airports { get; set; }
     public DbSet<AirlineEntity> Airlines { get; set; }
     public DbSet<FlightStatusEntity> FlightStatuses { get; set; }
-    public DbSet<AirportGateEntity> AirportGates { get; set; }
-    public DbSet<AirportGateStatusEntity> AirportGateStatuses { get; set; }
+    public DbSet<GateEntity> AirportGates { get; set; }
+    public DbSet<GateStatusEntity> AirportGateStatuses { get; set; }
 
     public new IQueryable<TEntity> Set<TEntity>() where TEntity : class, IEntity
     {

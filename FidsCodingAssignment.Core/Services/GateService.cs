@@ -18,14 +18,14 @@ public class GateService : ServiceBase, IGateService
         _gateRepository = gateRepository;
     }
     
-    public async Task<Flight> GetActiveFlight(int gateId)
+    public async Task<Flight> GetActiveFlight(string gateCode)
     {
-        var gate = await _gateRepository.Get(gateId);
+        var gate = await _gateRepository.GetByCodeAsync(gateCode);
         
         if (gate == null)
             throw new FidsNotFoundException(nameof(Gate));
         
-        var currentGateStatus = await _gateStatusRepository.GetCurrentGateStatus(gateId);
+        var currentGateStatus = await _gateStatusRepository.GetCurrentGateStatus(gate.Id);
         
         if (currentGateStatus == null || currentGateStatus.FlightId.NullOrDefault())
             throw new FidsException($"Gate {gate.Code} is not assigned to a flight at this moment.", ExceptionCategoryType.Info);

@@ -18,7 +18,7 @@ public class Flight
     /// <summary>
     /// Code of the airline operating the flight.
     /// </summary>
-    public string? AirlineCode { get; set; }
+    public string? AirlineCode => Airline?.Code;
     
     /// <summary>
     /// Flag indicating whether this is a CodeShare flight.
@@ -56,16 +56,6 @@ public class Flight
     public DateTime? ActualBoardingTime { get; set; }
     
     /// <summary>
-    /// Flight origin airport Id.
-    /// </summary>
-    public int OriginAirportId { get; set; }
-
-    /// <summary>
-    /// Flight destination airport Id.
-    /// </summary>
-    public int DestinationAirportId { get; set; }
-    
-    /// <summary>
     /// Domestic or international flight.
     /// </summary>
     public FlightMovementType FlightType { get; set; }
@@ -74,16 +64,11 @@ public class Flight
     /// Current status of the flight.
     /// </summary>
     public FlightStatusType FlightStatus { get; set; }
-    
+
     /// <summary>
-    /// Id of the airline operating the flight.
+    /// Code of the gate the flight is assigned to.
     /// </summary>
-    public int AirlineId { get; set; }
-    
-    /// <summary>
-    /// Id of the gate the flight is assigned to.
-    /// </summary>
-    public int? GateId { get; set; }
+    public string? GateCode => Gate?.Code;
     
     /// <summary>
     /// Navigation property for the airline.

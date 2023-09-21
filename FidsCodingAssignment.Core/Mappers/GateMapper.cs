@@ -5,7 +5,7 @@ namespace FidsCodingAssignment.Core.Mappers;
 
 public static class GateMapper
 {
-    public static Gate Map(this AirportGateEntity gate)
+    public static Gate Map(this GateEntity gate)
     {
         return new Gate
         {

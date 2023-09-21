@@ -11,7 +11,6 @@ public static class FlightMapper
         {
             Id = flight.Id,
             FlightNumber = flight.FlightNumber,
-            AirlineCode = flight.Airline?.Code,
             IsCodeShare = flight.IsCodeShare,
             ParentFlightId = flight.ParentFlightId,
             ParentFlight = flight.ParentFlight?.Map(),
@@ -20,15 +19,11 @@ public static class FlightMapper
             ActualTime = flight.ActualTime,
             ScheduledBoardingTime = flight.ScheduledBoardingTime,
             ActualBoardingTime = flight.ActualBoardingTime,
-            OriginAirportId = flight.OriginAirportId,
             OriginAirport = flight.OriginAirport?.Map(),
-            DestinationAirportId = flight.DestinationAirportId,
             DestinationAirport = flight.DestinationAirport?.Map(),
             FlightType = flight.FlightType,
             FlightStatus = flight.FlightStatus,
-            GateId = flight.GateId,
             Gate = flight.Gate?.Map(),
-            AirlineId = flight.AirlineId,
             Airline = flight.Airline?.Map(),
         };
     }
