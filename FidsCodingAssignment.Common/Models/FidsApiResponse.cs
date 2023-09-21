@@ -6,6 +6,19 @@ public class FidsApiResponse<TResult>
 {
     public TResult? Result { get; set; }
     
+    private FidsApiResponse(TResult result)
+    {
+        Result = result;
+    }
+    
+    public static FidsApiResponse<TResult> Success(TResult result)
+    {
+        return new FidsApiResponse<TResult>(result);
+    }
+}
+
+public class FidsApiResponse
+{
     public string? ErrorMessage { get; set; }
 
     public ExceptionCategoryType? ErrorCategory { get; set; }
@@ -16,18 +29,8 @@ public class FidsApiResponse<TResult>
         ErrorCategory = errorCategory;
     }
     
-    private FidsApiResponse(TResult result)
+    public static FidsApiResponse Error(string errorMessage, ExceptionCategoryType errorCategory = ExceptionCategoryType.Error)
     {
-        Result = result;
-    }
-    
-    public static FidsApiResponse<TResult> Success(TResult result)
-    {
-        return new FidsApiResponse<TResult>(result);
-    }
-    
-    public static FidsApiResponse<TResult> Error(string errorMessage, ExceptionCategoryType errorCategory = ExceptionCategoryType.Error)
-    {
-        return new FidsApiResponse<TResult>(errorMessage, errorCategory);
+        return new FidsApiResponse(errorMessage, errorCategory);
     }
 }

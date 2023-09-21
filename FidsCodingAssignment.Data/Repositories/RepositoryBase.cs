@@ -27,6 +27,23 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEnti
         return await _context.FindAsync<TEntity>(id);
     }
 
+    public void InsertOrUpdate(TEntity entity, int userId)
+    {
+        var timeNow = DateTime.UtcNow;
+        if (entity is IModifiableEntity modifiableEntity)
+        {
+            if (modifiableEntity.Id > 0)
+            {
+                modifiableEntity.ModifiedBy = userId;
+                modifiableEntity.LastModified = timeNow;
+                return;
+            }
+        }
+        
+        entity.CreatedBy = userId;
+        entity.DateCreated = timeNow;
+    }
+
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         await _context.SaveChangesAsync(cancellationToken);

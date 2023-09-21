@@ -56,6 +56,13 @@ public class GateStatusEntity : IDeletableEntity
     public GateStatusType GateStatus { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public DateTime ScheduledTime { get; set; }
+
+    public DateTime? ActualTime { get; set; }
+
+    /// <summary>
     /// Remarks for the gate status.
     /// </summary>
     public string? Remarks { get; set; }

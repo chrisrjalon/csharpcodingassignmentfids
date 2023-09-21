@@ -3,6 +3,7 @@ using FidsCodingAssignment.Common.Exceptions;
 using FidsCodingAssignment.Common.Extensions;
 using FidsCodingAssignment.Core.Mappers;
 using FidsCodingAssignment.Core.Models;
+using FidsCodingAssignment.Data.Extensions;
 using FidsCodingAssignment.Data.Models;
 using FidsCodingAssignment.Data.Repositories;
 
@@ -21,11 +22,8 @@ public class FlightService : ServiceBase, IFlightService
 
     public async Task SaveFlight(Flight flight)
     {
-        var isUpdate = flight.Id != default;
+        var isUpdating = flight.Id != default;
         
-        var flightEntity = isUpdate
-            ? await _flightRepository.Get(flight.Id)
-            : new FlightEntity();
     }
 
     public async Task<Flight> GetFlight(string airlineCode, int flightNumber)
@@ -87,5 +85,18 @@ public class FlightService : ServiceBase, IFlightService
         var flightStatuses = await _flightStatusRepository.GetFlightStatuses(flightId);
 
         return flightStatuses?.Select(x => x.Map()!).ToList();
+    }
+
+    public async Task RecordFlightActualTime(int flightId, DateTime actualTime)
+    {
+        var flight = await _flightRepository.Get(flightId);
+        
+        if (flight == null)
+            throw new FidsNotFoundException(nameof(Flight));
+        
+        flight.SetFlightActualTime(actualTime);
+        
+        _flightRepository.InsertOrUpdate(flight, 1);
+        await _flightRepository.SaveChangesAsync();
     }
 }

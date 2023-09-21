@@ -27,7 +27,7 @@ public class FlightsController : ControllerBase
         }
         catch (FidsException ex)
         {
-            return BadRequest(FidsApiResponse<FlightStatus>.Error(ex.Message, ex.Category));
+            return BadRequest(FidsApiResponse.Error(ex.Message, ex.Category));
         }
     }
     
@@ -41,7 +41,21 @@ public class FlightsController : ControllerBase
         }
         catch (FidsException ex)
         {
-            return BadRequest(FidsApiResponse<ICollection<Flight>>.Error(ex.Message, ex.Category));
+            return BadRequest(FidsApiResponse.Error(ex.Message, ex.Category));
+        }
+    }
+    
+    [HttpPut("{flightId}/actual-time")]
+    public async Task<IActionResult> RecordFlightActualTime(int flightId, [FromBody] DateTime actualTime)
+    {
+        try
+        {
+            await _flightService.RecordFlightActualTime(flightId, actualTime);
+            return Ok();
+        }
+        catch (FidsException ex)
+        {
+            return BadRequest(FidsApiResponse.Error(ex.Message, ex.Category));
         }
     }
 }

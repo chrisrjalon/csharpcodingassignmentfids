@@ -1,5 +1,6 @@
 using FidsCodingAssignment.Core;
 using FidsCodingAssignment.Data;
+using FidsCodingAssignment.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddDataServices();
 builder.Services.AddCoreServices();
 
 var app = builder.Build();
+
+app.UseMiddleware<FidsExceptionHandlerMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

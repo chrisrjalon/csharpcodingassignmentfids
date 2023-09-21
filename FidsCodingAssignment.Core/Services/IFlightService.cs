@@ -30,4 +30,12 @@ public interface IFlightService : IService
     /// Get the status history of a flight.
     /// </summary>
     Task<ICollection<FlightStatus>?> GetFlightStatusHistory(int flightId);
+    
+    /// <summary>
+    /// Save flight actual departure or arrival time.
+    /// </summary>
+    /// <param name="flightId"></param>
+    /// <param name="actualTime"></param>
+    /// <returns></returns>
+    Task RecordFlightActualTime(int flightId, DateTime actualTime);
 }
