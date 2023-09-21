@@ -1,14 +1,19 @@
 ﻿namespace FidsCodingAssignment.Core.Models;
 
-public class Gate
+public class Airline
 {
     /// <summary>
-    /// Gate Id.
+    /// Airline Id.
     /// </summary>
     public int Id { get; set; }
-    
+
     /// <summary>
-    /// Gate code.
+    /// Airline code.
     /// </summary>
     public string Code { get; set; }
+
+    /// <summary>
+    /// Airline name.
+    /// </summary>
+    public string Name { get; set; }
 }

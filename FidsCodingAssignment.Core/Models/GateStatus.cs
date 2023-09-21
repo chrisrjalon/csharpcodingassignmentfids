@@ -3,41 +3,53 @@ using FidsCodingAssignment.Common.Enumerations;
 
 namespace FidsCodingAssignment.Core.Models;
 
-public class FlightStatus
+public class GateStatus
 {
     /// <summary>
-    /// Flight status Id.
+    /// Gate status Id.
     /// </summary>
     public int Id { get; set; }
     
     /// <summary>
-    /// Flight Id for the flight status.
+    /// Gate Id for the gate status.
+    /// </summary>
+    public int GateId { get; set; }
+    
+    /// <summary>
+    /// Flight Id of the flight assigned to the gate.
     /// </summary>
     public int FlightId { get; set; }
     
     /// <summary>
-    /// Flight status.
+    /// Gate status.
     /// </summary>
-    public FlightStatusType Status { get; set; }
+    public GateStatusType Status { get; set; }
     
     /// <summary>
-    /// Date and time the flight status is effective from.
+    /// Date and time the gate status is effective from.
     /// </summary>
     public DateTime EffectiveFrom { get; set; }
     
     /// <summary>
-    /// Date and time the flight status is effective to.
+    /// Date and time the gate status is effective to.
     /// </summary>
     public DateTime? EffectiveTo { get; set; }
     
     /// <summary>
-    /// Remarks for the flight status.
+    /// Remarks for the gate status.
     /// </summary>
     public string? Remarks { get; set; }
     
     /// <summary>
-    /// Navigation property for the flight.
+    /// Navigation property for the flight assigned to the gate.
     /// </summary>
     [JsonIgnore]
     public Flight? Flight { get; set; }
+
+    /// <summary>
+    /// Navigation property for the gate.
+    /// </summary>
+    [JsonIgnore]
+    public Gate? Gate { get; set; }
+    
 }

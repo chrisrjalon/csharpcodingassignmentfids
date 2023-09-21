@@ -28,7 +28,6 @@ public class FlightRepository : RepositoryBase<FlightEntity>, IFlightRepository
             .Where(x => 
                 x.ActualDeparture.NullOrDefault() &&
                 x.ActualArrival.NullOrDefault() && 
-                x.ActualBoarding.NullOrDefault() &&
                 x.FlightStatus != FlightStatusType.Cancelled)
             .ToListAsync();
     }

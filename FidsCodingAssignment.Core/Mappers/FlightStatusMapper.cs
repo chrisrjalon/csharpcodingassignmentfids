@@ -17,7 +17,8 @@ public static class FlightStatusMapper
             Flight = flightStatus.Flight?.Map(),
             Status = flightStatus.Status,
             EffectiveFrom = flightStatus.DateCreated,
-            EffectiveTo = flightStatus.DateDeleted
+            EffectiveTo = flightStatus.DateDeleted,
+            Remarks = flightStatus.Remarks
         };
     }
 }
