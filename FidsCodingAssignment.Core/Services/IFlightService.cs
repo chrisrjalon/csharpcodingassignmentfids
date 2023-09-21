@@ -18,24 +18,20 @@ public interface IFlightService : IService
     /// <summary>
     /// Get the current status of a flight.
     /// </summary>
-    Task<FlightStatus> GetFlightStatus(int flightId);
+    Task<FlightStatus> GetFlightStatus(string airlineCode, int flightNumber);
 
     /// <summary>
     /// Get all flights that are delayed by a given delta.
     /// </summary>
-    /// <returns></returns>
-    Task<ICollection<Flight>> GetDelayedFlights(TimeSpan delta, DateTime? reference = null);
+    Task<ICollection<Flight>?> GetDelayedFlights(TimeSpan delta, DateTime? reference = null);
     
     /// <summary>
     /// Get the status history of a flight.
     /// </summary>
     Task<ICollection<FlightStatus>?> GetFlightStatusHistory(int flightId);
-    
+
     /// <summary>
     /// Save flight actual departure or arrival time.
     /// </summary>
-    /// <param name="flightId"></param>
-    /// <param name="actualTime"></param>
-    /// <returns></returns>
-    Task RecordFlightActualTime(int flightId, DateTime actualTime);
+    Task RecordFlightActualTime(string airlineCode, int flightNumber, DateTime actualTime);
 }

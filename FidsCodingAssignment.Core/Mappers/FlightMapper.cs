@@ -16,14 +16,20 @@ public static class FlightMapper
             ParentFlightId = flight.ParentFlightId,
             ParentFlight = flight.ParentFlight?.Map(),
             Bound = flight.Bound,
-            ScheduledDeparture = flight.ScheduledDeparture,
-            ActualDeparture = flight.ActualDeparture,
-            ScheduledArrival = flight.ScheduledArrival,
-            ActualArrival = flight.ActualArrival,
-            ScheduledBoarding = flight.ScheduledBoarding,
-            ActualBoarding = flight.ActualBoarding,
+            ScheduledTime = flight.ScheduledTime,
+            ActualTime = flight.ActualTime,
+            ScheduledBoardingTime = flight.ScheduledBoardingTime,
+            ActualBoardingTime = flight.ActualBoardingTime,
+            OriginAirportId = flight.OriginAirportId,
+            OriginAirport = flight.OriginAirport?.Map(),
+            DestinationAirportId = flight.DestinationAirportId,
+            DestinationAirport = flight.DestinationAirport?.Map(),
             FlightType = flight.FlightType,
-            FlightStatus = flight.FlightStatus
+            FlightStatus = flight.FlightStatus,
+            GateId = flight.GateId,
+            Gate = flight.Gate?.Map(),
+            AirlineId = flight.AirlineId,
+            Airline = flight.Airline?.Map(),
         };
     }
 }

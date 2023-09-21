@@ -2,7 +2,7 @@
 
 namespace FidsCodingAssignment.Data.Repositories;
 
-public interface IGateRepository : IRepository<GateEntity>
+public interface IGateRepository : IRepository<AirportGateEntity>
 {
     
 }

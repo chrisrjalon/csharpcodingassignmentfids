@@ -1,14 +1,25 @@
 ﻿using FidsCodingAssignment.Common.Interfaces;
+using FidsCodingAssignment.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FidsCodingAssignment.Data.Contexts;
 
+/// <summary>
+/// For example purposes, I've decided to use an in-memory database.
+/// </summary>
 public class FidsDbContext : DbContext, IContext
 {
-    public FidsDbContext()
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        
+        optionsBuilder.UseInMemoryDatabase(databaseName: "FidsDb");
     }
+
+    public DbSet<FlightEntity> Flights { get; set; }
+    public DbSet<AirportEntity> Airports { get; set; }
+    public DbSet<AirlineEntity> Airlines { get; set; }
+    public DbSet<FlightStatusEntity> FlightStatuses { get; set; }
+    public DbSet<AirportGateEntity> AirportGates { get; set; }
+    public DbSet<AirportGateStatusEntity> AirportGateStatuses { get; set; }
 
     public new IQueryable<TEntity> Set<TEntity>() where TEntity : class, IEntity
     {

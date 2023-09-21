@@ -54,7 +54,7 @@ public class FlightServiceTests
             .ReturnsAsync((FlightEntity?) null);
         
         var service = mock.Create<FlightService>();
-        await Assert.ThrowsAsync<FidsNotFoundException>(() => service.GetFlightStatus(It.IsAny<int>()));
+        await Assert.ThrowsAsync<FidsNotFoundException>(() => service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>()));
     }
     
     [Fact]
@@ -65,7 +65,7 @@ public class FlightServiceTests
         var mockFlightStatusRepo = mock.Mock<IFlightStatusRepository>();
         
         mockFlightRepo
-            .Setup(x => x.Get(It.IsAny<int>()))
+            .Setup(x => x.GetFlight(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(OutboundFlight);
         
         mockFlightStatusRepo
@@ -73,7 +73,7 @@ public class FlightServiceTests
             .ReturnsAsync((FlightStatusEntity?) null);
         
         var service = mock.Create<FlightService>();
-        await Assert.ThrowsAsync<FidsException>(() => service.GetFlightStatus(It.IsAny<int>()));
+        await Assert.ThrowsAsync<FidsException>(() => service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>()));
     }
     
     [Fact]
@@ -84,7 +84,7 @@ public class FlightServiceTests
         var mockFlightStatusRepo = mock.Mock<IFlightStatusRepository>();
         
         mockFlightRepo
-            .Setup(x => x.Get(It.IsAny<int>()))
+            .Setup(x => x.GetFlight(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(OutboundFlight);
         
         mockFlightStatusRepo
@@ -92,7 +92,7 @@ public class FlightServiceTests
             .ReturnsAsync(OnTimeFlightStatus);
         
         var service = mock.Create<FlightService>();
-        var result = await service.GetFlightStatus(It.IsAny<int>());
+        var result = await service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>());
         
         Assert.Equal(123456789, result.Id);
         Assert.Equal(FlightStatusType.OnTime, result.Status);
@@ -198,7 +198,7 @@ public class FlightServiceTests
             FlightStatus = FlightStatusType.OnTime,
             Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
-            ScheduledDeparture = new DateTime(2023, 08, 08, 13, 00, 00)
+            ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00)
         };
     
     private FlightEntity InboundFlight =>
@@ -216,7 +216,7 @@ public class FlightServiceTests
             FlightStatus = FlightStatusType.OnTime,
             Bound = FlightBoundType.Inbound,
             FlightType = FlightMovementType.International,
-            ScheduledArrival = new DateTime(2023, 08, 08, 13, 00, 00)
+            ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00)
         };
     
     private FlightEntity InboundFlight2 =>
@@ -234,7 +234,7 @@ public class FlightServiceTests
             FlightStatus = FlightStatusType.OnTime,
             Bound = FlightBoundType.Inbound,
             FlightType = FlightMovementType.International,
-            ScheduledArrival = new DateTime(2023, 08, 08, 14, 00, 00)
+            ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00)
         };
     
     private FlightEntity OutboundFlight2 =>
@@ -252,7 +252,7 @@ public class FlightServiceTests
             FlightStatus = FlightStatusType.OnTime,
             Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
-            ScheduledDeparture = new DateTime(2023, 08, 08, 14, 00, 00)
+            ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00)
         };
     
     private FlightStatusEntity OnTimeFlightStatus =>

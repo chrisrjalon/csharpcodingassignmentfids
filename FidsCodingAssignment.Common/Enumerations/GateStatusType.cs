@@ -2,6 +2,7 @@
 
 public enum GateStatusType
 {
+    Assigned,
     Boarding,
     Closed
 }

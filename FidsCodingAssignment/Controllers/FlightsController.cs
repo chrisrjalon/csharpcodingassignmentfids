@@ -17,45 +17,63 @@ public class FlightsController : ControllerBase
         _flightService = flightService;
     }
     
-    [HttpGet("{flightId}/status")]
-    public async Task<IActionResult> GetFlightStatus(int flightId)
+    /// <summary>
+    /// Gets the current status of a flight.
+    /// </summary>
+    /// <param name="airlineCode">Code of the airline operating the flight.</param>
+    /// <param name="flightNumber">Flight number assigned to the flight.</param>
+    /// <returns>A flight status.</returns>
+    [HttpGet("{airlineCode}/{flightNumber}/status")]
+    public async Task<FidsApiResponse<FlightStatus>> GetFlightStatus(string airlineCode, int flightNumber)
     {
         try
         {
-            var flightStatus = await _flightService.GetFlightStatus(flightId);
-            return Ok(FidsApiResponse<FlightStatus>.Success(flightStatus));
+            var flightStatus = await _flightService.GetFlightStatus(airlineCode, flightNumber);
+            return FidsApiResponse<FlightStatus>.Success(flightStatus);
         }
         catch (FidsException ex)
         {
-            return BadRequest(FidsApiResponse.Error(ex.Message, ex.Category));
+            return FidsApiResponse<FlightStatus>.Error(ex.Message, ex.Category);
         }
     }
     
+    /// <summary>
+    /// Gets a list of flights that are delayed by a given delta.
+    /// </summary>
+    /// <param name="delta">Number of minutes to use as the delay threshold.</param>
+    /// <returns>Collection of flights that are delayed per the given delta.</returns>
     [HttpGet("delayed/{delta}")]
-    public async Task<IActionResult> GetDelayedFlights(long delta)
+    public async Task<FidsApiResponse<ICollection<Flight>?>> GetDelayedFlights(long delta)
     {
         try
         {
             var delayedFlights = await _flightService.GetDelayedFlights(TimeSpan.FromMinutes(delta));
-            return Ok(FidsApiResponse<ICollection<Flight>>.Success(delayedFlights));
+            return FidsApiResponse<ICollection<Flight>?>.Success(delayedFlights);
         }
         catch (FidsException ex)
         {
-            return BadRequest(FidsApiResponse.Error(ex.Message, ex.Category));
+            return FidsApiResponse<ICollection<Flight>?>.Error(ex.Message, ex.Category);
         }
     }
     
-    [HttpPut("{flightId}/actual-time")]
-    public async Task<IActionResult> RecordFlightActualTime(int flightId, [FromBody] DateTime actualTime)
+    /// <summary>
+    /// Records the actual departure and arrival times of a flight.
+    /// </summary>
+    /// <param name="airlineCode">Code of the airline operating the flight.</param>
+    /// <param name="flightNumber">Flight number assigned to the flight.</param>
+    /// <param name="actualTime">The actual departure or arrival time of the flight.</param>
+    /// <returns></returns>
+    [HttpPost("{airlineCode}/{flightNumber}/actual-time")]
+    public async Task<EmptyFidsResponse> RecordFlightActualTime(string airlineCode, int flightNumber, [FromBody] DateTime actualTime)
     {
         try
         {
-            await _flightService.RecordFlightActualTime(flightId, actualTime);
-            return Ok();
+            await _flightService.RecordFlightActualTime(airlineCode, flightNumber, actualTime);
+            return EmptyFidsResponse.Success();
         }
         catch (FidsException ex)
         {
-            return BadRequest(FidsApiResponse.Error(ex.Message, ex.Category));
+            return EmptyFidsResponse.Error(ex.Message, ex.Category);
         }
     }
 }

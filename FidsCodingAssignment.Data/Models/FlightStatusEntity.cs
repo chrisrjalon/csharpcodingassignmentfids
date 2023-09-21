@@ -47,6 +47,11 @@ public class FlightStatusEntity : IDeletableEntity
     public FlightStatusType Status { get; set; }
 
     /// <summary>
+    /// Scheduled date and time for the next flight status.
+    /// </summary>
+    public DateTime? ScheduledNextStatus { get; set; }
+
+    /// <summary>
     /// Remarks for the flight status.
     /// </summary>
     public string? Remarks { get; set; }

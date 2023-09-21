@@ -36,34 +36,34 @@ public class Flight
     public FlightBoundType Bound { get; set; }
     
     /// <summary>
-    /// Scheduled departure time of the flight.
+    /// Scheduled arrival or departure time of the flight.
     /// </summary>
-    public DateTime ScheduledDeparture { get; set; }
+    public DateTime ScheduledTime { get; set; }
     
     /// <summary>
-    /// Actual departure time of the flight.
+    /// Actual arrival or departure time of the flight.
     /// </summary>
-    public DateTime? ActualDeparture { get; set; }
+    public DateTime? ActualTime { get; set; }
+
+    /// <summary>
+    /// Estimated boarding time for departing flights.
+    /// </summary>
+    public DateTime? ScheduledBoardingTime { get; set; }
     
     /// <summary>
-    /// Scheduled arrival time of the flight.
+    /// Actual boarding time for departing flights.
     /// </summary>
-    public DateTime ScheduledArrival { get; set; }
+    public DateTime? ActualBoardingTime { get; set; }
     
     /// <summary>
-    /// Actual arrival time of the flight.
+    /// Flight origin airport Id.
     /// </summary>
-    public DateTime? ActualArrival { get; set; }
-    
+    public int OriginAirportId { get; set; }
+
     /// <summary>
-    /// Scheduled boarding time of the flight.
+    /// Flight destination airport Id.
     /// </summary>
-    public DateTime? ScheduledBoarding { get; set; }
-    
-    /// <summary>
-    /// Scheduled boarding time of the flight.
-    /// </summary>
-    public DateTime? ActualBoarding { get; set; }
+    public int DestinationAirportId { get; set; }
     
     /// <summary>
     /// Domestic or international flight.
@@ -96,6 +96,18 @@ public class Flight
     /// </summary>
     [JsonIgnore]
     public Gate? Gate { get; set; }
+
+    /// <summary>
+    /// Navigation property for the origin airport.
+    /// </summary>
+    [JsonIgnore]
+    public Airport? OriginAirport { get; set; }
+    
+    /// <summary>
+    /// Navigation property for the destination airport.
+    /// </summary>
+    [JsonIgnore]
+    public Airport? DestinationAirport { get; set; }
     
     /// <summary>
     /// Navigation property for the parent flight.

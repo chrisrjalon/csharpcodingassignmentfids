@@ -1,10 +1,7 @@
 ﻿using FidsCodingAssignment.Common.Enumerations;
 using FidsCodingAssignment.Common.Exceptions;
-using FidsCodingAssignment.Common.Extensions;
 using FidsCodingAssignment.Core.Mappers;
 using FidsCodingAssignment.Core.Models;
-using FidsCodingAssignment.Data.Extensions;
-using FidsCodingAssignment.Data.Models;
 using FidsCodingAssignment.Data.Repositories;
 
 namespace FidsCodingAssignment.Core.Services;
@@ -38,14 +35,14 @@ public class FlightService : ServiceBase, IFlightService
         return flight;
     }
 
-    public async Task<FlightStatus> GetFlightStatus(int flightId)
+    public async Task<FlightStatus> GetFlightStatus(string airlineCode, int flightNumber)
     {
-        var flight = await _flightRepository.Get(flightId);
-        
+        var flight = await _flightRepository.GetFlight(airlineCode, flightNumber);
+
         if (flight == null)
             throw new FidsNotFoundException(nameof(Flight));
         
-        var currentFlightStatus = await _flightStatusRepository.GetCurrentFlightStatus(flightId);
+        var currentFlightStatus = await _flightStatusRepository.GetCurrentFlightStatus(flight.Id);
 
         if (currentFlightStatus == null)
             throw new FidsException($"Flight {flight.FlightNumber} does not have a status at this moment.", ExceptionCategoryType.Info);
@@ -53,31 +50,16 @@ public class FlightService : ServiceBase, IFlightService
         return currentFlightStatus.Map()!;
     }
 
-    public async Task<ICollection<Flight>> GetDelayedFlights(TimeSpan delta, DateTime? reference = null)
+    public async Task<ICollection<Flight>?> GetDelayedFlights(TimeSpan delta, DateTime? reference = null)
     {
         reference ??= DateTime.UtcNow;
         
         var activeFlights = await _flightRepository.GetActiveFlights();
-        
-        var delayedOutboundFlights = 
-            activeFlights?
-                .Where(x => 
-                    x.Bound == FlightBoundType.Outbound && 
-                    x.ScheduledDeparture < reference.Value.Add(delta))
-                .Select(x => x.Map())
-                .ToList();
-        var delayedInboundFlights =
-            activeFlights?
-                .Where(x => 
-                    x.Bound == FlightBoundType.Inbound &&
-                    x.ScheduledArrival < reference.Value.Add(delta))
-                .Select(x => x.Map())
-                .ToList();
 
-        return delayedOutboundFlights.EmptyIfNull()
-            .Concat(delayedInboundFlights.EmptyIfNull())
-            .OrderBy(x => x.Id)
-            .ToList();
+        var delayedFlights = activeFlights?
+            .Where(x => x.ScheduledTime < reference.Value.Add(delta));
+
+        return delayedFlights?.Select(x => x.Map()).ToList();
     }
 
     public async Task<ICollection<FlightStatus>?> GetFlightStatusHistory(int flightId)
@@ -87,14 +69,14 @@ public class FlightService : ServiceBase, IFlightService
         return flightStatuses?.Select(x => x.Map()!).ToList();
     }
 
-    public async Task RecordFlightActualTime(int flightId, DateTime actualTime)
+    public async Task RecordFlightActualTime(string airlineCode, int flightNumber, DateTime actualTime)
     {
-        var flight = await _flightRepository.Get(flightId);
+        var flight = await _flightRepository.GetFlight(airlineCode, flightNumber);
         
         if (flight == null)
             throw new FidsNotFoundException(nameof(Flight));
         
-        flight.SetFlightActualTime(actualTime);
+        flight.ActualTime = actualTime;
         
         _flightRepository.InsertOrUpdate(flight, 1);
         await _flightRepository.SaveChangesAsync();

@@ -15,6 +15,8 @@ public class FlightRepository : RepositoryBase<FlightEntity>, IFlightRepository
     public async Task<FlightEntity?> GetFlight(string airlineCode, int flightNumber)
     {
         return await Set
+            .Include(x => x.OriginAirport)
+            .Include(x => x.DestinationAirport)
             .Include(x => x.Gate)
             .Include(x => x.Airline)
             .FirstOrDefaultAsync(x => x.Airline!.Code == airlineCode && x.FlightNumber == flightNumber);
@@ -26,8 +28,7 @@ public class FlightRepository : RepositoryBase<FlightEntity>, IFlightRepository
             .Include(x => x.Gate)
             .Include(x => x.Airline)
             .Where(x => 
-                x.ActualDeparture.NullOrDefault() &&
-                x.ActualArrival.NullOrDefault() && 
+                x.ActualTime.NullOrDefault() &&
                 x.FlightStatus != FlightStatusType.Cancelled)
             .ToListAsync();
     }

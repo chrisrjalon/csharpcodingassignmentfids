@@ -22,7 +22,7 @@ public class FidsExceptionHandlerMiddleware
         catch (Exception e)
         {
             LogHelper.LogException(e);
-            var result = FidsApiResponse.Error("An unexpected error occurred. The developers have been notified.");
+            var result = EmptyFidsResponse.Error("An unexpected error occurred. The developers have been notified.");
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync(result);

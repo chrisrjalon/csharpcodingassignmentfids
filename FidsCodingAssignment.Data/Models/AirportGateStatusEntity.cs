@@ -3,7 +3,7 @@ using FidsCodingAssignment.Common.Interfaces;
 
 namespace FidsCodingAssignment.Data.Models;
 
-public class GateStatusEntity : IDeletableEntity
+public class AirportGateStatusEntity : IDeletableEntity
 {
     /// <summary>
     /// Gate status Id.
@@ -38,7 +38,7 @@ public class GateStatusEntity : IDeletableEntity
     /// <summary>
     /// Gate for the gate status.
     /// </summary>
-    public GateEntity? Gate { get; set; }
+    public AirportGateEntity? Gate { get; set; }
     
     /// <summary>
     /// Flight Id of the flight assigned to the gate.
@@ -54,13 +54,6 @@ public class GateStatusEntity : IDeletableEntity
     /// Current gate status.
     /// </summary>
     public GateStatusType GateStatus { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public DateTime ScheduledTime { get; set; }
-
-    public DateTime? ActualTime { get; set; }
 
     /// <summary>
     /// Remarks for the gate status.

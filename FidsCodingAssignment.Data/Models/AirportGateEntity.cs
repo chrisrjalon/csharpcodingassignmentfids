@@ -3,7 +3,7 @@ using FidsCodingAssignment.Common.Interfaces;
 
 namespace FidsCodingAssignment.Data.Models;
 
-public class GateEntity : IModifiableEntity, IDeletableEntity
+public class AirportGateEntity : IModifiableEntity, IDeletableEntity
 {
     /// <summary>
     /// Gate Id.
