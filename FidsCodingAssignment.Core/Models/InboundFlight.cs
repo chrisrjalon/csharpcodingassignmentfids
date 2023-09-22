@@ -5,7 +5,7 @@ namespace FidsCodingAssignment.Core.Models;
 public class InboundFlight : Flight
 {
     /// <summary>
-    /// Flight origin details.
+    /// Flight origin.
     /// </summary>
-    public Location? Origin { get; set; }
+    public string Origin { get; set; }
 }

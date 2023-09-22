@@ -9,9 +9,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddDataServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IFlightRepository, FlightRepository>();
-        serviceCollection.AddScoped<IFlightStatusRepository, FlightStatusRepository>();
-        serviceCollection.AddScoped<IGateRepository, GateRepository>();
-        serviceCollection.AddScoped<IGateStatusRepository, GateStatusRepository>();
         serviceCollection.AddScoped<IContext, FidsDbContext>();
 
         return serviceCollection;

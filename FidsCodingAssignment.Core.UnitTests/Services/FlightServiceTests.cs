@@ -1,9 +1,12 @@
 ﻿using Autofac.Extras.Moq;
 using FidsCodingAssignment.Common.Enumerations;
 using FidsCodingAssignment.Common.Exceptions;
+using FidsCodingAssignment.Common.Models;
+using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Core.Services;
 using FidsCodingAssignment.Data.Models;
 using FidsCodingAssignment.Data.Repositories;
+using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
@@ -11,36 +14,15 @@ namespace FidsCodingAssignment.Core.UnitTests.Services;
 
 public class FlightServiceTests
 {
-    [Fact]
-    public async Task GetFlight_FlightNotFound_ThrowsException()
+    private AutoMock GetMock()
     {
-        using var mock = AutoMock.GetLoose();
-        var mockFlightRepo = mock.Mock<IFlightRepository>();
+        var mock = AutoMock.GetLoose();
+        var mockFlightConfigOptions = mock.Mock<IOptions<FlightConfiguration>>();
+        mockFlightConfigOptions
+            .Setup(x => x.Value)
+            .Returns(FlightConfig);
 
-        mockFlightRepo
-            .Setup(x => x.GetFlight(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync((FlightEntity?) null);
-        
-        var service = mock.Create<FlightService>();
-        
-        await Assert.ThrowsAsync<FidsNotFoundException>(() => service.GetFlight(It.IsAny<string>(), It.IsAny<int>()));
-    }
-
-    [Fact]
-    public async Task GetFlight_FlightFound_ReturnsFlight()
-    {
-        using var mock = AutoMock.GetLoose();
-        var mockFlightRepo = mock.Mock<IFlightRepository>();
-
-        mockFlightRepo
-            .Setup(x => x.GetFlight("SY", 505))
-            .ReturnsAsync(OutboundFlight);
-        
-        var service = mock.Create<FlightService>();
-        
-        var flight = await service.GetFlight("SY", 505);
-        
-        Assert.Equal(541406104, flight.Id);
+        return mock;
     }
     
     [Fact]
@@ -58,50 +40,26 @@ public class FlightServiceTests
     }
     
     [Fact]
-    public async Task GetFlightStatus_FlightNoStatus_ThrowsException()
+    public async Task GetFlightStatus_FlightStatusBoarding_ReturnsFlightStatus()
     {
-        using var mock = AutoMock.GetLoose();
+        using var mock = GetMock();
         var mockFlightRepo = mock.Mock<IFlightRepository>();
-        var mockFlightStatusRepo = mock.Mock<IFlightStatusRepository>();
-        
+
         mockFlightRepo
             .Setup(x => x.GetFlight(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(OutboundFlight);
-        
-        mockFlightStatusRepo
-            .Setup(x => x.GetCurrentFlightStatus(It.IsAny<int>()))
-            .ReturnsAsync((FlightStatusEntity?) null);
-        
-        var service = mock.Create<FlightService>();
-        await Assert.ThrowsAsync<FidsException>(() => service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>()));
-    }
-    
-    [Fact]
-    public async Task GetFlightStatus_FlightWithStatus_ReturnsFlightStatus()
-    {
-        using var mock = AutoMock.GetLoose();
-        var mockFlightRepo = mock.Mock<IFlightRepository>();
-        var mockFlightStatusRepo = mock.Mock<IFlightStatusRepository>();
-        
-        mockFlightRepo
-            .Setup(x => x.GetFlight(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(OutboundFlight);
-        
-        mockFlightStatusRepo
-            .Setup(x => x.GetCurrentFlightStatus(It.IsAny<int>()))
-            .ReturnsAsync(OnTimeFlightStatus);
         
         var service = mock.Create<FlightService>();
         var result = await service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>());
         
-        Assert.Equal(123456789, result.Id);
-        Assert.Equal(FlightStatusType.OnTime, result.Status);
+        Assert.Equal(541406104, result.FlightId);
+        Assert.Equal(FlightStatusType.Delayed, result.Status);
     }
     
     [Fact]
     public async Task GetDelayedFlights_NoActiveFlights_ReturnsEmptyList()
     {
-        using var mock = AutoMock.GetLoose();
+        using var mock = GetMock();
         var mockFlightRepo = mock.Mock<IFlightRepository>();
         
         mockFlightRepo
@@ -117,7 +75,7 @@ public class FlightServiceTests
     [Fact]
     public async Task GetDelayedFlights_DelayedOutboundFlights_ReturnDelayedFlights()
     {
-        using var mock = AutoMock.GetLoose();
+        using var mock = GetMock();
         var mockFlightRepo = mock.Mock<IFlightRepository>();
         
         mockFlightRepo
@@ -191,14 +149,7 @@ public class FlightServiceTests
         {
             Id = 541406104,
             FlightNumber = 505,
-            AirlineId = 1001,
-            Airline = new AirlineEntity
-            {
-                Id = 1001,
-                Code = "SY",
-                Name = "SUN COUNTRY"
-            },
-            FlightStatus = FlightStatusType.OnTime,
+            AirlineCode = "SY",
             Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00)
@@ -209,14 +160,7 @@ public class FlightServiceTests
         {
             Id = 541406100,
             FlightNumber = 500,
-            AirlineId = 1001,
-            Airline = new AirlineEntity
-            {
-                Id = 1001,
-                Code = "SY",
-                Name = "SUN COUNTRY"
-            },
-            FlightStatus = FlightStatusType.OnTime,
+            AirlineCode = "SY",
             Bound = FlightBoundType.Inbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00)
@@ -227,14 +171,7 @@ public class FlightServiceTests
         {
             Id = 541406101,
             FlightNumber = 501,
-            AirlineId = 1001,
-            Airline = new AirlineEntity
-            {
-                Id = 1001,
-                Code = "SY",
-                Name = "SUN COUNTRY"
-            },
-            FlightStatus = FlightStatusType.OnTime,
+            AirlineCode = "SY",
             Bound = FlightBoundType.Inbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00)
@@ -245,27 +182,26 @@ public class FlightServiceTests
         {
             Id = 541406105,
             FlightNumber = 506,
-            AirlineId = 1001,
-            Airline = new AirlineEntity
-            {
-                Id = 1001,
-                Code = "SY",
-                Name = "SUN COUNTRY"
-            },
-            FlightStatus = FlightStatusType.OnTime,
+            AirlineCode = "SY",
             Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00)
         };
     
-    private FlightStatusEntity OnTimeFlightStatus =>
+    private FlightStatus OnTimeStatus =>
         new()
         {
-            Id = 123456789,
             FlightId = 541406104,
-            Flight = OutboundFlight,
+            FlightNumber = 505,
+            AirlineCode = "SY",
             Status = FlightStatusType.OnTime,
-            DateCreated = new DateTime(2023, 08, 08, 13, 00, 00),
-            IsActive = true
+        };
+    
+    private FlightConfiguration FlightConfig =>
+        new()
+        {
+            BoardingWindow = -90,
+            BoardingDuration = 60,
+            FlightAtGateWindow = 120
         };
 }

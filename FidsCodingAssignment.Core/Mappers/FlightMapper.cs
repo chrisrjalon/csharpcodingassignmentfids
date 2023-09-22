@@ -16,7 +16,7 @@ public static class FlightMapper
         };
     }
 
-    private static OutboundFlight MapOutbound(this FlightEntity flight)
+    public static OutboundFlight MapOutbound(this FlightEntity flight)
     {
         return new OutboundFlight
         {
@@ -24,21 +24,16 @@ public static class FlightMapper
             FlightNumber = flight.FlightNumber,
             IsCodeShare = flight.IsCodeShare,
             ParentFlightId = flight.ParentFlightId,
-            ParentFlight = flight.ParentFlight?.Map(),
             Bound = flight.Bound,
             ScheduledTime = flight.ScheduledTime,
             ActualTime = flight.ActualTime,
             FlightType = flight.FlightType,
-            FlightStatus = flight.FlightStatus,
-            Airline = flight.Airline?.Map(),
-            Gate = flight.Gate?.Map(),
-            ScheduledBoardingTime = flight.ScheduledBoardingTime,
-            ActualBoardingTime = flight.ActualBoardingTime,
-            Destination = flight.DestinationAirport?.MapLocation(),
+            Destination = flight.Destination,
+            GateCode = flight.GateCode
         };
     }
 
-    private static InboundFlight MapInbound(this FlightEntity flight)
+    public static InboundFlight MapInbound(this FlightEntity flight)
     {
         return new InboundFlight()
         {
@@ -46,14 +41,11 @@ public static class FlightMapper
             FlightNumber = flight.FlightNumber,
             IsCodeShare = flight.IsCodeShare,
             ParentFlightId = flight.ParentFlightId,
-            ParentFlight = flight.ParentFlight?.Map(),
             Bound = flight.Bound,
             ScheduledTime = flight.ScheduledTime,
             ActualTime = flight.ActualTime,
             FlightType = flight.FlightType,
-            FlightStatus = flight.FlightStatus,
-            Airline = flight.Airline?.Map(),
-            Origin = flight.OriginAirport?.MapLocation(),
+            Origin = flight.Origin
         };
     }
     

@@ -23,16 +23,16 @@ public class GatesController : ControllerBase
     /// <param name="gateCode">Unique code assigned to the gate.</param>
     /// <returns>Flight details.</returns>
     [HttpGet("{gateCode}/active-flight")]
-    public async Task<FidsApiResponse<Flight>> GetActiveFlight(string gateCode)
+    public async Task<FidsApiResponse<Flight?>> GetActiveFlight(string gateCode)
     {
         try
         {
             var flight = await _gateService.GetActiveFlight(gateCode);
-            return FidsApiResponse<Flight>.Success(flight);
+            return FidsApiResponse<Flight?>.Success(flight);
         }
         catch (FidsException ex)
         {
-            return FidsApiResponse<Flight>.Error(ex.Message, ex.Category);
+            return FidsApiResponse<Flight?>.Error(ex.Message, ex.Category);
         }
     }
 }

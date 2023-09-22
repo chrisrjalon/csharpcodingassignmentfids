@@ -1,3 +1,4 @@
+using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Core;
 using FidsCodingAssignment.Data;
 using FidsCodingAssignment.Middlewares;
@@ -13,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDataServices();
 builder.Services.AddCoreServices();
+builder.Services.Configure<FlightConfiguration>(
+    builder.Configuration.GetSection(nameof(FlightConfiguration)));
 
 var app = builder.Build();
 

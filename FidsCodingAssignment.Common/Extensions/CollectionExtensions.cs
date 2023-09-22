@@ -2,8 +2,8 @@
 
 public static class CollectionExtensions
 {
-    public static ICollection<T> EmptyIfNull<T>(this ICollection<T>? source)
+    public static bool IsNullOrEmpty<T>(this ICollection<T>? source)
     {
-        return source ?? Array.Empty<T>();
+        return source == null || !source.Any();
     }
 }

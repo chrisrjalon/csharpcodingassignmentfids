@@ -1,5 +1,4 @@
 using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Extensions;
 using FidsCodingAssignment.Data.Contexts;
 using FidsCodingAssignment.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,21 +14,22 @@ public class FlightRepository : RepositoryBase<FlightEntity>, IFlightRepository
     public async Task<FlightEntity?> GetFlight(string airlineCode, int flightNumber)
     {
         return await Set
-            .Include(x => x.OriginAirport)
-            .Include(x => x.DestinationAirport)
-            .Include(x => x.Gate)
-            .Include(x => x.Airline)
-            .FirstOrDefaultAsync(x => x.Airline!.Code == airlineCode && x.FlightNumber == flightNumber);
+            .FirstOrDefaultAsync(x => x.AirlineCode == airlineCode && x.FlightNumber == flightNumber);
     }
 
     public async Task<ICollection<FlightEntity>> GetActiveFlights()
     {
         return await Set
-            .Include(x => x.Gate)
-            .Include(x => x.Airline)
+            .Where(x => x.ActualTime == null)
+            .ToListAsync();
+    }
+
+    public async Task<ICollection<FlightEntity>> GetFlightsAssignedToGate(string gateCode)
+    {
+        return await Set
             .Where(x => 
-                x.ActualTime.NullOrDefault() &&
-                x.FlightStatus != FlightStatusType.Cancelled)
+                x.Bound == FlightBoundType.Outbound && 
+                x.GateCode == gateCode)
             .ToListAsync();
     }
 }

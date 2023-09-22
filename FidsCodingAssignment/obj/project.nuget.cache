@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "pC+VS+S43KUFvAvquvQQ5WpZ2XUA6l/D7HtfeA5/t0btMH7iNcbaJ29q4B6dYfQZ2K4RPxB7faZorxNPfp3M/g==",
+  "dgSpecHash": "ZhqYWZo/G8aEq7+jU/Xkj9viPgM2HkBpj/EEfTO2oX6Q1dLCE939m/rNynD//sS9LLt/+GKbQVBM/5N/zJfT3A==",
   "success": true,
   "projectFilePath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment\\FidsCodingAssignment.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,8 @@
     "C:\\Users\\Rome\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Rome\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Rome\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
+    "C:\\Users\\Rome\\.nuget\\packages\\microsoft.extensions.configuration\\7.0.0\\microsoft.extensions.configuration.7.0.0.nupkg.sha512",
+    "C:\\Users\\Rome\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Rome\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\Rome\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Rome\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",

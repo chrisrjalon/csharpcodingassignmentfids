@@ -1,35 +1,38 @@
-﻿using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Exceptions;
+﻿using FidsCodingAssignment.Common.Exceptions;
 using FidsCodingAssignment.Common.Extensions;
+using FidsCodingAssignment.Common.Models;
+using FidsCodingAssignment.Core.Extensions;
+using FidsCodingAssignment.Core.Helpers;
 using FidsCodingAssignment.Core.Mappers;
 using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Data.Repositories;
+using Microsoft.Extensions.Options;
 
 namespace FidsCodingAssignment.Core.Services;
 
 public class GateService : ServiceBase, IGateService
 {
-    private readonly IGateStatusRepository _gateStatusRepository;
-    private readonly IGateRepository _gateRepository;
+    private readonly IFlightRepository _flightRepository;
+    private readonly FlightConfiguration _flightConfiguration;
     
-    public GateService(IGateStatusRepository gateStatusRepository, IGateRepository gateRepository)
+    public GateService(
+        IFlightRepository flightRepository, 
+        IOptions<FlightConfiguration> flightConfigurationOptions)
     {
-        _gateStatusRepository = gateStatusRepository;
-        _gateRepository = gateRepository;
+        _flightRepository = flightRepository;
+        _flightConfiguration = flightConfigurationOptions.Value;
     }
     
-    public async Task<Flight> GetActiveFlight(string gateCode)
+    public async Task<Flight?> GetActiveFlight(string gateCode, DateTime? referenceTime = null)
     {
-        var gate = await _gateRepository.GetByCodeAsync(gateCode);
+        var flights = await _flightRepository.GetFlightsAssignedToGate(gateCode);
         
-        if (gate == null)
-            throw new FidsNotFoundException(nameof(Gate));
-        
-        var currentGateStatus = await _gateStatusRepository.GetCurrentGateStatus(gate.Id);
-        
-        if (currentGateStatus == null || currentGateStatus.FlightId.NullOrDefault())
-            throw new FidsException($"Gate {gate.Code} is not assigned to a flight at this moment.", ExceptionCategoryType.Info);
+        if (flights.IsNullOrEmpty())
+            throw new FidsException($"No flights assigned to gate {gateCode}");
 
-        return currentGateStatus.Flight!.Map()!;
+        var activeFlight = flights.FirstOrDefault(x => FlightHelper.IsFlightAtGate(x.ScheduledTime, _flightConfiguration, referenceTime))?.Map();
+        activeFlight?.SetStatuses(_flightConfiguration, referenceTime);
+
+        return activeFlight;
     }
 }

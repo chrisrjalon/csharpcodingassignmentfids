@@ -8,6 +8,4 @@ public interface IRepository<TEntity> : IUnitOfWork where TEntity : class, IEnti
     Task<ICollection<TEntity>?> GetAll();
     
     Task<TEntity?> Get(int id);
-    
-    void InsertOrUpdate(TEntity entity, int userId);
 }

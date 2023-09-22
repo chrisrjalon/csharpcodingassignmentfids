@@ -19,12 +19,6 @@ public enum FlightStatusType
     [Description("Departed")]
     Departed,
     
-    [Description("En Route")]
-    EnRoute,
-    
     [Description("Arrived")]
-    Arrived,
-    
-    [Description("Cancelled")]
-    Cancelled
+    Arrived
 }

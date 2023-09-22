@@ -1,32 +1,27 @@
 ﻿using System.Text.Json.Serialization;
+using FidsCodingAssignment.Common.Enumerations;
 
 namespace FidsCodingAssignment.Core.Models;
 
 public class OutboundFlight : Flight
 {
     /// <summary>
-    /// Estimated boarding time for departing flights.
+    /// Flag indicating whether the flight is at the gate.
     /// </summary>
-    public DateTime? ScheduledBoardingTime { get; set; }
-    
-    /// <summary>
-    /// Actual boarding time for departing flights.
-    /// </summary>
-    public DateTime? ActualBoardingTime { get; set; }
+    public bool IsAtGate { get; set; }
 
     /// <summary>
-    /// Flight destination details.
+    /// Flag indicating whether the flight is boarding.
     /// </summary>
-    public Location? Destination { get; set; }
+    public bool IsBoarding => FlightStatus == FlightStatusType.Boarding;
+
+    /// <summary>
+    /// Flight destination.
+    /// </summary>
+    public string Destination { get; set; }
     
     /// <summary>
     /// Code of the gate the flight is assigned to.
     /// </summary>
-    public string? GateCode => Gate?.Code;
-    
-    /// <summary>
-    /// Navigation property for the gate.
-    /// </summary>
-    [JsonIgnore]
-    public Gate? Gate { get; set; }
+    public string GateCode { get; set; }
 }

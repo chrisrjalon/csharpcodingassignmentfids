@@ -30,18 +30,6 @@ public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEnti
     public void InsertOrUpdate(TEntity entity, int userId)
     {
         var timeNow = DateTime.UtcNow;
-        if (entity is IModifiableEntity modifiableEntity)
-        {
-            if (modifiableEntity.Id > 0)
-            {
-                modifiableEntity.ModifiedBy = userId;
-                modifiableEntity.LastModified = timeNow;
-                return;
-            }
-        }
-        
-        entity.CreatedBy = userId;
-        entity.DateCreated = timeNow;
     }
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)

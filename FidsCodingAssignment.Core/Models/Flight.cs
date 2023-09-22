@@ -14,11 +14,11 @@ public abstract class Flight
     /// Flight number.
     /// </summary>
     public int FlightNumber { get; set; }
-    
+
     /// <summary>
     /// Code of the airline operating the flight.
     /// </summary>
-    public string? AirlineCode => Airline?.Code;
+    public string? AirlineCode { get; set; }
     
     /// <summary>
     /// Flag indicating whether this is a CodeShare flight.
@@ -54,16 +54,9 @@ public abstract class Flight
     /// Current status of the flight.
     /// </summary>
     public FlightStatusType FlightStatus { get; set; }
-    
+
     /// <summary>
-    /// Navigation property for the airline.
+    /// Collection of code share flights.
     /// </summary>
-    [JsonIgnore]
-    public Airline? Airline { get; set; }
-    
-    /// <summary>
-    /// Navigation property for the parent flight.
-    /// </summary>
-    [JsonIgnore]
-    public Flight? ParentFlight { get; set; }
+    public ICollection<Flight>? CodeShareFlights { get; set; }
 }
