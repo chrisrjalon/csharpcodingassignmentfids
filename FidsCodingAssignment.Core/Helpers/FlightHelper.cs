@@ -21,8 +21,11 @@ public static class FlightHelper
                 : FlightStatusType.Arrived;
         }
         
-        if (flight.ScheduledTime < referenceTime.Value)
+        if (referenceTime.Value > flight.ScheduledTime)
             return FlightStatusType.Delayed;
+        
+        if (flight.Bound == FlightBoundType.Inbound)
+            return FlightStatusType.OnTime;
         
         var boardingTime = flight.ScheduledTime.AddMinutes(-flightConfiguration.BoardingWindow);
         var closedTime = boardingTime.AddMinutes(flightConfiguration.BoardingDuration);
@@ -30,7 +33,10 @@ public static class FlightHelper
         if (referenceTime.Value > boardingTime && referenceTime.Value < closedTime)
             return FlightStatusType.Boarding;
         
-        return FlightStatusType.Closed;
+        if (referenceTime.Value > closedTime && referenceTime.Value < flight.ScheduledTime)
+            return FlightStatusType.Closed;
+        
+        return FlightStatusType.OnTime;
     }
     
     public static bool IsFlightAtGate(DateTime scheduledTime, FlightConfiguration flightConfiguration, DateTime? referenceTime = null)

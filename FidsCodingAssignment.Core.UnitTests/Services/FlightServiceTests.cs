@@ -4,6 +4,7 @@ using FidsCodingAssignment.Common.Exceptions;
 using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Core.Services;
+using FidsCodingAssignment.Core.UnitTests.TestData;
 using FidsCodingAssignment.Data.Models;
 using FidsCodingAssignment.Data.Repositories;
 using Microsoft.Extensions.Options;
@@ -12,19 +13,8 @@ using Xunit;
 
 namespace FidsCodingAssignment.Core.UnitTests.Services;
 
-public class FlightServiceTests
+public class FlightServiceTests : ServiceBaseTests
 {
-    private AutoMock GetMock()
-    {
-        var mock = AutoMock.GetLoose();
-        var mockFlightConfigOptions = mock.Mock<IOptions<FlightConfiguration>>();
-        mockFlightConfigOptions
-            .Setup(x => x.Value)
-            .Returns(FlightConfig);
-
-        return mock;
-    }
-    
     [Fact]
     public async Task GetFlightStatus_FlightNotFound_ThrowsException()
     {
@@ -47,7 +37,7 @@ public class FlightServiceTests
 
         mockFlightRepo
             .Setup(x => x.GetFlight(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(OutboundFlight);
+            .ReturnsAsync(FlightData.OutboundFlight);
         
         var service = mock.Create<FlightService>();
         var result = await service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>());
@@ -80,7 +70,7 @@ public class FlightServiceTests
         
         mockFlightRepo
             .Setup(x => x.GetActiveFlights())
-            .ReturnsAsync(new[] {OutboundFlight, OutboundFlight2});
+            .ReturnsAsync(new[] {FlightData.OutboundFlight, FlightData.OutboundFlight2});
         
         var service = mock.Create<FlightService>();
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
@@ -103,7 +93,7 @@ public class FlightServiceTests
         
         mockFlightRepo
             .Setup(x => x.GetActiveFlights())
-            .ReturnsAsync(new[] {InboundFlight, InboundFlight2});
+            .ReturnsAsync(new[] {FlightData.InboundFlight, FlightData.InboundFlight2});
         
         var service = mock.Create<FlightService>();
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
@@ -126,7 +116,7 @@ public class FlightServiceTests
         
         mockFlightRepo
             .Setup(x => x.GetActiveFlights())
-            .ReturnsAsync(new[] {InboundFlight, InboundFlight2, OutboundFlight, OutboundFlight2});
+            .ReturnsAsync(new[] {FlightData.InboundFlight, FlightData.InboundFlight2, FlightData.OutboundFlight, FlightData.OutboundFlight2});
         
         var service = mock.Create<FlightService>();
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
@@ -143,65 +133,4 @@ public class FlightServiceTests
                 Assert.Equal(541406104, f2.Id);
             });
     }
-
-    private FlightEntity OutboundFlight =>
-        new()
-        {
-            Id = 541406104,
-            FlightNumber = 505,
-            AirlineCode = "SY",
-            Bound = FlightBoundType.Outbound,
-            FlightType = FlightMovementType.International,
-            ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00)
-        };
-    
-    private FlightEntity InboundFlight =>
-        new()
-        {
-            Id = 541406100,
-            FlightNumber = 500,
-            AirlineCode = "SY",
-            Bound = FlightBoundType.Inbound,
-            FlightType = FlightMovementType.International,
-            ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00)
-        };
-    
-    private FlightEntity InboundFlight2 =>
-        new()
-        {
-            Id = 541406101,
-            FlightNumber = 501,
-            AirlineCode = "SY",
-            Bound = FlightBoundType.Inbound,
-            FlightType = FlightMovementType.International,
-            ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00)
-        };
-    
-    private FlightEntity OutboundFlight2 =>
-        new()
-        {
-            Id = 541406105,
-            FlightNumber = 506,
-            AirlineCode = "SY",
-            Bound = FlightBoundType.Outbound,
-            FlightType = FlightMovementType.International,
-            ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00)
-        };
-    
-    private FlightStatus OnTimeStatus =>
-        new()
-        {
-            FlightId = 541406104,
-            FlightNumber = 505,
-            AirlineCode = "SY",
-            Status = FlightStatusType.OnTime,
-        };
-    
-    private FlightConfiguration FlightConfig =>
-        new()
-        {
-            BoardingWindow = -90,
-            BoardingDuration = 60,
-            FlightAtGateWindow = 120
-        };
 }
