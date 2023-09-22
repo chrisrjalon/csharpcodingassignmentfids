@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\FidsCodingAssignment\\FidsCodingAssignment\\FidsCodingAssignment.csproj": {}
+    "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment\\FidsCodingAssignment.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\FidsCodingAssignment\\FidsCodingAssignment\\FidsCodingAssignment.csproj": {
+    "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Common\\FidsCodingAssignment.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\FidsCodingAssignment\\FidsCodingAssignment\\FidsCodingAssignment.csproj",
-        "projectName": "FidsCodingAssignment",
-        "projectPath": "C:\\Dev\\FidsCodingAssignment\\FidsCodingAssignment\\FidsCodingAssignment.csproj",
-        "packagesPath": "C:\\Users\\omri.r.SYNECTMEDIA\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\FidsCodingAssignment\\FidsCodingAssignment\\obj\\",
+        "projectUniqueName": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Common\\FidsCodingAssignment.Common.csproj",
+        "projectName": "FidsCodingAssignment.Common",
+        "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Common\\FidsCodingAssignment.Common.csproj",
+        "packagesPath": "C:\\Users\\Rome\\.nuget\\packages\\",
+        "outputPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Common\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\omri.r.SYNECTMEDIA\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Rome\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,7 +42,224 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.308\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Core\\FidsCodingAssignment.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Core\\FidsCodingAssignment.Core.csproj",
+        "projectName": "FidsCodingAssignment.Core",
+        "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Core\\FidsCodingAssignment.Core.csproj",
+        "packagesPath": "C:\\Users\\Rome\\.nuget\\packages\\",
+        "outputPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Rome\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Data\\FidsCodingAssignment.Data.csproj": {
+                "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Data\\FidsCodingAssignment.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.308\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Data\\FidsCodingAssignment.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Data\\FidsCodingAssignment.Data.csproj",
+        "projectName": "FidsCodingAssignment.Data",
+        "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Data\\FidsCodingAssignment.Data.csproj",
+        "packagesPath": "C:\\Users\\Rome\\.nuget\\packages\\",
+        "outputPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Rome\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Common\\FidsCodingAssignment.Common.csproj": {
+                "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Common\\FidsCodingAssignment.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.308\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment\\FidsCodingAssignment.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment\\FidsCodingAssignment.csproj",
+        "projectName": "FidsCodingAssignment",
+        "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment\\FidsCodingAssignment.csproj",
+        "packagesPath": "C:\\Users\\Rome\\.nuget\\packages\\",
+        "outputPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Rome\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.308\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Common\\FidsCodingAssignment.Common.csproj": {
+                "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Common\\FidsCodingAssignment.Common.csproj"
+              },
+              "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Core\\FidsCodingAssignment.Core.csproj": {
+                "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Core\\FidsCodingAssignment.Core.csproj"
+              },
+              "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Data\\FidsCodingAssignment.Data.csproj": {
+                "projectPath": "E:\\dev\\synect\\csharpcodingassignmentfids\\FidsCodingAssignment.Data\\FidsCodingAssignment.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
@@ -51,7 +271,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -63,7 +284,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.308\\RuntimeIdentifierGraph.json"
         }
       }
     }
