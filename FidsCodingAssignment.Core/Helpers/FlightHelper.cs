@@ -27,7 +27,7 @@ public static class FlightHelper
         if (flight.Bound == FlightBoundType.Inbound)
             return FlightStatusType.OnTime;
         
-        var boardingTime = flight.ScheduledTime.AddMinutes(-flightConfiguration.BoardingWindow);
+        var boardingTime = flight.ScheduledTime.AddMinutes(flightConfiguration.BoardingWindow);
         var closedTime = boardingTime.AddMinutes(flightConfiguration.BoardingDuration);
         
         if (referenceTime.Value > boardingTime && referenceTime.Value < closedTime)
