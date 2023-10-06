@@ -27,7 +27,7 @@ public class FlightServiceTests : ServiceBaseTests
         var result = await service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>());
         
         Assert.True(result.IsError);
-        Assert.NotEmpty(result.Errors);
+        Assert.NotNull(result.Errors);
         Assert.Collection(result.Errors,
             e1 => Assert.Equal(Errors.Flight.NotFound.Code, e1.Code));
     }
