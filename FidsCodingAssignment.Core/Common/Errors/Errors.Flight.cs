@@ -6,6 +6,6 @@ public static partial class Errors
 {
     public static class Flight
     {
-        public static Error NotFound = Error.NotFound("Flight.NotFound", "Flight/s not found.");
+        public static Error NotFound = Error.NotFound("Flight.NotFound", "Flight not found.");
     }
 }

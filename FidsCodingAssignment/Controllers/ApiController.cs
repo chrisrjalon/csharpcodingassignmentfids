@@ -1,4 +1,5 @@
-﻿using FidsCodingAssignment.Common.Models.Results;
+﻿using FidsCodingAssignment.Common.Enumerations;
+using FidsCodingAssignment.Common.Models.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FidsCodingAssignment.Controllers;
@@ -20,6 +21,6 @@ public abstract class ApiController : ControllerBase
             _ => StatusCodes.Status500InternalServerError
         };
         
-        return Problem(statusCode: statusCode, title: firstError.Code, detail: firstError.Description);
+        return Problem(statusCode: statusCode, title: firstError.Code, detail: firstError.Description, type: firstError.Category.ToString());
     }
 }

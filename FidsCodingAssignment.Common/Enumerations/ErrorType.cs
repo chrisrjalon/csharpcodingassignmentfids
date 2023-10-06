@@ -1,4 +1,4 @@
-﻿namespace FidsCodingAssignment.Common.Models.Results;
+﻿namespace FidsCodingAssignment.Common.Enumerations;
 
 public enum ErrorType
 {
