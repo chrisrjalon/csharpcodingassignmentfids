@@ -63,7 +63,7 @@ public class FlightServiceTests : ServiceBaseTests
         var service = mock.Create<FlightService>();
         var result = await service.GetDelayedFlights(It.IsAny<TimeSpan>());
         
-        Assert.Null(result);
+        Assert.Null(result.Value);
     }
     
     [Fact]

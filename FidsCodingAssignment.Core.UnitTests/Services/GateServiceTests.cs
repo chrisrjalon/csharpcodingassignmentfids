@@ -27,9 +27,9 @@ public class GateServiceTests : ServiceBaseTests
         var result = await service.GetActiveFlight("E36");
         
         Assert.True(result.IsError);
-        Assert.NotEmpty(result.Errors);
+        Assert.NotNull(result.Errors);
         Assert.Collection(result.Errors,
-            e1 => Assert.Equal(Errors.Flight.NotFound.Code, e1.Code));
+            e1 => Assert.Equal(Errors.Gate.NoActiveFlight.Code, e1.Code));
     }
     
     [Fact]
