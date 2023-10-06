@@ -1,5 +1,4 @@
 ﻿using FidsCodingAssignment.Common.Interfaces;
-using FidsCodingAssignment.Data.Models;
 
 namespace FidsCodingAssignment.Data.Repositories;
 

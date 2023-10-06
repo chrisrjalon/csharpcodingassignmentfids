@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using FidsCodingAssignment.Common.Enumerations;
+using DateTime = System.DateTime;
 
 namespace FidsCodingAssignment.Core.Models;
 
@@ -29,10 +30,11 @@ public abstract class Flight
     /// Parent flight Id.
     /// </summary>
     public int? ParentFlightId { get; set; }
-    
+
     /// <summary>
     /// Inbound or outbound flight.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public FlightBoundType Bound { get; set; }
     
     /// <summary>
@@ -44,15 +46,17 @@ public abstract class Flight
     /// Actual arrival or departure time of the flight.
     /// </summary>
     public DateTime? ActualTime { get; set; }
-    
+
     /// <summary>
     /// Domestic or international flight.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public FlightMovementType FlightType { get; set; }
-    
+
     /// <summary>
     /// Current status of the flight.
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public FlightStatusType FlightStatus { get; set; }
 
     /// <summary>

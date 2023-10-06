@@ -1,8 +1,5 @@
-﻿using FidsCodingAssignment.Common.Exceptions;
-using FidsCodingAssignment.Common.Extensions;
-using FidsCodingAssignment.Common.Interfaces;
+﻿using FidsCodingAssignment.Common.Interfaces;
 using FidsCodingAssignment.Data.Contexts;
-using FidsCodingAssignment.Data.Models;
 
 namespace FidsCodingAssignment.Data.Repositories;
 

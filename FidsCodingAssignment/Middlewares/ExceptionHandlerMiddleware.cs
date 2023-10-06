@@ -1,14 +1,14 @@
 ﻿using System.Net;
 using FidsCodingAssignment.Common.Helpers;
-using FidsCodingAssignment.Common.Models;
+using FidsCodingAssignment.Common.Models.Results;
 
 namespace FidsCodingAssignment.Middlewares;
 
-public class FidsExceptionHandlerMiddleware
+public class ExceptionHandlerMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public FidsExceptionHandlerMiddleware(RequestDelegate next)
+    public ExceptionHandlerMiddleware(RequestDelegate next)
     {
         _next = next;
     }
@@ -22,7 +22,7 @@ public class FidsExceptionHandlerMiddleware
         catch (Exception e)
         {
             LogHelper.LogException(e);
-            var result = EmptyFidsResponse.Error("An unexpected error occurred. The developers have been notified.");
+            var result = Error.Unexpected();
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsJsonAsync(result);

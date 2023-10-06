@@ -1,6 +1,4 @@
 ﻿using FidsCodingAssignment.Common.Interfaces;
-using FidsCodingAssignment.Data.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace FidsCodingAssignment.Data.Contexts;
 

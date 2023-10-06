@@ -1,4 +1,5 @@
-﻿using FidsCodingAssignment.Common.Exceptions;
+﻿using FidsCodingAssignment.Common.Models.Results;
+using FidsCodingAssignment.Core.Common.Errors;
 using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Core.Services;
 using FidsCodingAssignment.Core.UnitTests.TestData;
@@ -22,7 +23,13 @@ public class GateServiceTests : ServiceBaseTests
             .ReturnsAsync((ICollection<FlightEntity>?) null);
         
         var service = mock.Create<GateService>();
-        await Assert.ThrowsAsync<FidsException>(() => service.GetActiveFlight("E36"));
+        
+        var result = await service.GetActiveFlight("E36");
+        
+        Assert.True(result.IsError);
+        Assert.NotEmpty(result.Errors);
+        Assert.Collection(result.Errors,
+            e1 => Assert.Equal(Errors.Flight.NotFound.Code, e1.Code));
     }
     
     [Fact]
@@ -39,10 +46,10 @@ public class GateServiceTests : ServiceBaseTests
         var referenceTime = new DateTime(2023, 08, 08, 12, 00, 00);
         var result = await service.GetActiveFlight("E36", referenceTime);
         
-        Assert.NotNull(result);
-        Assert.True(result is OutboundFlight);
+        Assert.False(result.IsError);
+        Assert.True(result.Value is OutboundFlight);
         
-        var outboundFlight = (result as OutboundFlight)!;
+        var outboundFlight = (result.Value as OutboundFlight)!;
         Assert.True(outboundFlight.IsAtGate);
     }
 }

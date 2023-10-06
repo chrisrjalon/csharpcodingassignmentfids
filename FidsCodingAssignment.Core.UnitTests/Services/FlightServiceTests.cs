@@ -1,13 +1,10 @@
 ﻿using Autofac.Extras.Moq;
 using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Exceptions;
-using FidsCodingAssignment.Common.Models;
-using FidsCodingAssignment.Core.Models;
+using FidsCodingAssignment.Core.Common.Errors;
 using FidsCodingAssignment.Core.Services;
 using FidsCodingAssignment.Core.UnitTests.TestData;
 using FidsCodingAssignment.Data.Models;
 using FidsCodingAssignment.Data.Repositories;
-using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
@@ -26,7 +23,13 @@ public class FlightServiceTests : ServiceBaseTests
             .ReturnsAsync((FlightEntity?) null);
         
         var service = mock.Create<FlightService>();
-        await Assert.ThrowsAsync<FidsNotFoundException>(() => service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>()));
+        
+        var result = await service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>());
+        
+        Assert.True(result.IsError);
+        Assert.NotEmpty(result.Errors);
+        Assert.Collection(result.Errors,
+            e1 => Assert.Equal(Errors.Flight.NotFound.Code, e1.Code));
     }
     
     [Fact]
@@ -42,8 +45,9 @@ public class FlightServiceTests : ServiceBaseTests
         var service = mock.Create<FlightService>();
         var result = await service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>());
         
-        Assert.Equal(541406104, result.FlightId);
-        Assert.Equal(FlightStatusType.Delayed, result.Status);
+        Assert.False(result.IsError);
+        Assert.Equal(541406104, result.Value.FlightId);
+        Assert.Equal(FlightStatusType.Delayed, result.Value.Status);
     }
     
     [Fact]
@@ -76,9 +80,10 @@ public class FlightServiceTests : ServiceBaseTests
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
         var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
 
-        Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Collection(result,
+        Assert.False(result.IsError);
+        Assert.NotNull(result.Value);
+        Assert.Single(result.Value);
+        Assert.Collection(result.Value,
             f1 =>
             {
                 Assert.Equal(541406104, f1.Id);
@@ -99,9 +104,10 @@ public class FlightServiceTests : ServiceBaseTests
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
         var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
 
-        Assert.NotNull(result);
-        Assert.Single(result);
-        Assert.Collection(result,
+        Assert.False(result.IsError);
+        Assert.NotNull(result.Value);
+        Assert.Single(result.Value);
+        Assert.Collection(result.Value,
             f1 =>
             {
                 Assert.Equal(541406100, f1.Id);
@@ -122,8 +128,9 @@ public class FlightServiceTests : ServiceBaseTests
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
         var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
 
-        Assert.NotNull(result);
-        Assert.Collection(result,
+        Assert.False(result.IsError);
+        Assert.NotNull(result.Value);
+        Assert.Collection(result.Value,
             f1 =>
             {
                 Assert.Equal(541406100, f1.Id);

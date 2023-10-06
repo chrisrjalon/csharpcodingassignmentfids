@@ -21,6 +21,7 @@ public static class FlightMapper
         return new OutboundFlight
         {
             Id = flight.Id,
+            AirlineCode = flight.AirlineCode,
             FlightNumber = flight.FlightNumber,
             IsCodeShare = flight.IsCodeShare,
             ParentFlightId = flight.ParentFlightId,
@@ -28,7 +29,7 @@ public static class FlightMapper
             ScheduledTime = flight.ScheduledTime,
             ActualTime = flight.ActualTime,
             FlightType = flight.FlightType,
-            Destination = flight.Destination,
+            Destination = flight.City,
             GateCode = flight.GateCode
         };
     }
@@ -38,6 +39,7 @@ public static class FlightMapper
         return new InboundFlight()
         {
             Id = flight.Id,
+            AirlineCode = flight.AirlineCode,
             FlightNumber = flight.FlightNumber,
             IsCodeShare = flight.IsCodeShare,
             ParentFlightId = flight.ParentFlightId,
@@ -45,7 +47,7 @@ public static class FlightMapper
             ScheduledTime = flight.ScheduledTime,
             ActualTime = flight.ActualTime,
             FlightType = flight.FlightType,
-            Origin = flight.Origin
+            Origin = flight.City
         };
     }
     

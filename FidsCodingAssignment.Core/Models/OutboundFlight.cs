@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using FidsCodingAssignment.Common.Enumerations;
+﻿using FidsCodingAssignment.Common.Enumerations;
 
 namespace FidsCodingAssignment.Core.Models;
 
@@ -18,10 +17,10 @@ public class OutboundFlight : Flight
     /// <summary>
     /// Flight destination.
     /// </summary>
-    public string Destination { get; set; }
+    public string? Destination { get; set; }
     
     /// <summary>
     /// Code of the gate the flight is assigned to.
     /// </summary>
-    public string GateCode { get; set; }
+    public string? GateCode { get; set; }
 }

@@ -1,16 +1,24 @@
 ﻿using FidsCodingAssignment.Data.Contexts;
 using FidsCodingAssignment.Data.Repositories;
+using FidsCodingAssignment.TestData;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FidsCodingAssignment.Data;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDataServices(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddData(this IServiceCollection services)
     {
-        serviceCollection.AddScoped<IFlightRepository, FlightRepository>();
-        serviceCollection.AddScoped<IContext, FidsDbContext>();
+        services.AddDbContext<FidsDbContext>(options =>
+        {
+            options.UseInMemoryDatabase("FidsDb");
+        });
 
-        return serviceCollection;
+        services.AddSingleton<TestDataService>();
+        services.AddScoped<IFlightRepository, FlightRepository>();
+        services.AddScoped<IContext, FidsDbContext>();
+
+        return services;
     }
 }

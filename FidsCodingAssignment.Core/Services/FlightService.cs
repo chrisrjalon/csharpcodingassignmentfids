@@ -1,7 +1,8 @@
 ﻿using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Exceptions;
 using FidsCodingAssignment.Common.Extensions;
 using FidsCodingAssignment.Common.Models;
+using FidsCodingAssignment.Common.Models.Results;
+using FidsCodingAssignment.Core.Common.Errors;
 using FidsCodingAssignment.Core.Helpers;
 using FidsCodingAssignment.Core.Mappers;
 using FidsCodingAssignment.Core.Models;
@@ -23,7 +24,7 @@ public class FlightService : ServiceBase, IFlightService
         _flightConfiguration = flightConfigurationOptions.Value;
     }
 
-    public async Task<FlightStatus> GetFlightStatus(
+    public async Task<Result<FlightStatus>> GetFlightStatus(
         string airlineCode,
         int flightNumber,
         DateTime? referenceTime = null)
@@ -31,20 +32,24 @@ public class FlightService : ServiceBase, IFlightService
         var flight = await _flightRepository.GetFlight(airlineCode, flightNumber);
 
         if (flight == null)
-            throw new FidsNotFoundException(nameof(Flight));
+            return Errors.Flight.NotFound;
         
         var status = FlightHelper.GetFlightStatus(flight.Map(), _flightConfiguration, referenceTime);
 
         return new FlightStatus
         {
             FlightId = flight.Id,
-            FlightNumber = flight.FlightNumber,
             AirlineCode = flight.AirlineCode,
+            FlightNumber = flight.FlightNumber,
+            ScheduledTime = flight.ScheduledTime,
+            ActualTime = flight.ActualTime,
+            Bound = flight.Bound,
+            FlightType = flight.FlightType,
             Status = status
         };
     }
 
-    public async Task<ICollection<Flight>?> GetDelayedFlights(TimeSpan delta, DateTime? referenceTime = null)
+    public async Task<Result<ICollection<Flight>?>> GetDelayedFlights(TimeSpan delta, DateTime? referenceTime = null)
     {
         referenceTime ??= DateTime.UtcNow;
         
@@ -65,16 +70,18 @@ public class FlightService : ServiceBase, IFlightService
         return result;
     }
 
-    public async Task RecordFlightActualTime(string airlineCode, int flightNumber, DateTime actualTime)
+    public async Task<Result> RecordFlightActualTime(string airlineCode, int flightNumber, DateTime actualTime)
     {
         var flight = await _flightRepository.GetFlight(airlineCode, flightNumber);
-        
+
         if (flight == null)
-            throw new FidsNotFoundException(nameof(Flight));
+            return Errors.Flight.NotFound;
         
         flight.ActualTime = actualTime;
         
         // _flightRepository.InsertOrUpdate(flight, 1);
         await _flightRepository.SaveChangesAsync();
+        
+        return Result.Success;
     }
 }

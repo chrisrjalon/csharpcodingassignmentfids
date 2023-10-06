@@ -1,8 +1,6 @@
 ﻿using Autofac.Extras.Moq;
-using FidsCodingAssignment.Common.Enumerations;
 using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Core.UnitTests.TestData;
-using FidsCodingAssignment.Data.Models;
 using Microsoft.Extensions.Options;
 
 namespace FidsCodingAssignment.Core.UnitTests.Services;
