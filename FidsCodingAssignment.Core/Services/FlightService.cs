@@ -79,7 +79,6 @@ public class FlightService : ServiceBase, IFlightService
         
         flight.ActualTime = actualTime;
         
-        // _flightRepository.InsertOrUpdate(flight, 1);
         await _flightRepository.SaveChangesAsync();
         
         return Result.Success;

@@ -44,12 +44,12 @@ public class FidsDbContext : DbContext, IContext
             return;
         
         var testData = _testDataService.GetTestData();
-        var flights = ConvertToFlightEntities(testData);
+        var flights = MapToFlightEntities(testData);
         Flights.AddRange(flights);
         SaveChanges();
     }
 
-    private ICollection<FlightEntity> ConvertToFlightEntities(TestDataModel testData)
+    private ICollection<FlightEntity> MapToFlightEntities(TestDataModel testData)
     {
         return testData.Flights.Select(x =>
             new FlightEntity

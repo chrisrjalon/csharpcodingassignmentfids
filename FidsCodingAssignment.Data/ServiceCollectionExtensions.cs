@@ -10,10 +10,11 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddData(this IServiceCollection services)
     {
-        services.AddDbContext<FidsDbContext>(options =>
-        {
-            options.UseInMemoryDatabase("FidsDb");
-        });
+        services.AddDbContext<FidsDbContext>(
+            options =>
+            {
+                options.UseInMemoryDatabase("FidsDb");
+            });
 
         services.AddSingleton<TestDataService>();
         services.AddScoped<IFlightRepository, FlightRepository>();

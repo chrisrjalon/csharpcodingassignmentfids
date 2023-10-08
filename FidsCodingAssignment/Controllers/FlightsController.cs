@@ -49,7 +49,7 @@ public class FlightsController : ApiController
     /// <param name="flightNumber">Flight number assigned to the flight.</param>
     /// <param name="actualTime">The actual departure or arrival time of the flight.</param>
     /// <returns></returns>
-    [HttpPost("{airlineCode}/{flightNumber}/actual-time")]
+    [HttpPut("{airlineCode}/{flightNumber}/actual-time")]
     public async Task<IActionResult> RecordFlightActualTime(string airlineCode, int flightNumber, [FromBody] DateTime actualTime)
     {
         var result = await _flightService.RecordFlightActualTime(airlineCode, flightNumber, actualTime);
