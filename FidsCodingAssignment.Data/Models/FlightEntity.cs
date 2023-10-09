@@ -12,6 +12,7 @@ public class FlightEntity : IEntity
     public int? ParentFlightId { get; set; }
     public FlightBoundType Bound { get; set; }
     public DateTime ScheduledTime { get; set; }
+    public DateTime EstimatedTime { get; set; }
     public DateTime? ActualTime { get; set; }
     public string? City { get; set; }
     public FlightMovementType FlightType { get; set; }

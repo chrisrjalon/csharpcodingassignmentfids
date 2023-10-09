@@ -1,6 +1,4 @@
 ﻿using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Extensions;
-using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Common.Models.Results;
 using FidsCodingAssignment.Core.Common.Errors;
 using FidsCodingAssignment.Core.Models;
@@ -37,22 +35,17 @@ public class FlightService : ServiceBase, IFlightService
         return flight;
     }
 
-    public async Task<Result<ICollection<Flight>?>> GetDelayedFlights(TimeSpan delta, DateTime? referenceTime = null)
+    public async Task<Result<ICollection<Flight>?>> GetDelayedFlights(TimeSpan delta)
     {
-        var activeFlights = (await _flightRepository.GetActiveFlights())?
-            .Select(fe => Flight.CreateWithStatus(fe, _flightConfiguration, referenceTime))?
+        var activeFlights = (await _flightRepository.GetActiveFlights())
+            .Select(Flight.Create)?
             .ToList();
 
         var delayedFlights = activeFlights?
-            .Where(x => x.IsFlightDelayed(delta, referenceTime))?
+            .Where(x => x.IsFlightDelayed(delta))
             .ToList();
-
-        if (delayedFlights.IsNullOrEmpty())
-            return delayedFlights;
         
-        // in this case we want to override the status of the flight to "Delayed"
-        foreach (var flight in delayedFlights!)
-            flight.FlightStatus = FlightStatusType.Delayed;
+        delayedFlights?.ForEach(f => f.WithStatus(FlightStatusType.Delayed));
         
         return delayedFlights;
     }

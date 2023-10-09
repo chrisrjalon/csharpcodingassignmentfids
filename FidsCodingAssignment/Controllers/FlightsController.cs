@@ -3,11 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FidsCodingAssignment.Controllers;
 
+/// <summary>
+/// Flight API controller.
+/// </summary>
 [Route("api/[controller]")]
 public class FlightsController : ApiController
 {
     private readonly IFlightService _flightService;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FlightsController"/> class.
+    /// </summary>
+    /// <param name="flightService"></param>
     public FlightsController(IFlightService flightService)
     {
         _flightService = flightService;

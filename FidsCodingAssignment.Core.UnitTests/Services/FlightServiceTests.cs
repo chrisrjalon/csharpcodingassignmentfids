@@ -1,6 +1,7 @@
 ﻿using Autofac.Extras.Moq;
 using FidsCodingAssignment.Common.Enumerations;
 using FidsCodingAssignment.Core.Common.Errors;
+using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Core.Services;
 using FidsCodingAssignment.Core.UnitTests.TestData;
 using FidsCodingAssignment.Data.Models;
@@ -13,7 +14,7 @@ namespace FidsCodingAssignment.Core.UnitTests.Services;
 public class FlightServiceTests : ServiceBaseTests
 {
     [Fact]
-    public async Task GetFlightStatus_FlightNotFound_ThrowsException()
+    public async Task GetFlight_FlightNotFound_ThrowsException()
     {
         using var mock = AutoMock.GetLoose();
         var mockFlightRepo = mock.Mock<IFlightRepository>();
@@ -33,7 +34,7 @@ public class FlightServiceTests : ServiceBaseTests
     }
     
     [Fact]
-    public async Task GetFlightStatus_FlightStatusBoarding_ReturnsFlightStatus()
+    public async Task GetFlight_FlightStatusBoarding_ReturnsFlightStatus()
     {
         using var mock = GetMock();
         var mockFlightRepo = mock.Mock<IFlightRepository>();
@@ -47,7 +48,7 @@ public class FlightServiceTests : ServiceBaseTests
         
         Assert.False(result.IsError);
         Assert.Equal(541406104, result.Value.FlightId);
-        Assert.Equal(FlightStatusType.Delayed, result.Value.FlightStatus);
+        Assert.Equal(BoardingStatusType.Closed, ((OutboundFlight)result.Value).BoardingStatus);
     }
     
     [Fact]
@@ -58,12 +59,12 @@ public class FlightServiceTests : ServiceBaseTests
         
         mockFlightRepo
             .Setup(x => x.GetActiveFlights())!
-            .ReturnsAsync((ICollection<FlightEntity>?) null);
+            .ReturnsAsync(Array.Empty<FlightEntity>());
         
         var service = mock.Create<FlightService>();
         var result = await service.GetDelayedFlights(It.IsAny<TimeSpan>());
         
-        Assert.Null(result.Value);
+        Assert.Empty(result.Value!);
     }
     
     [Fact]
@@ -77,16 +78,14 @@ public class FlightServiceTests : ServiceBaseTests
             .ReturnsAsync(new[] {FlightData.OutboundFlightEntity, FlightData.OutboundFlightEntity2});
         
         var service = mock.Create<FlightService>();
-        var reference = new DateTime(2023, 08, 08, 11, 30, 00);
-        var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
+        var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(30));
 
         Assert.False(result.IsError);
         Assert.NotNull(result.Value);
-        Assert.Single(result.Value);
         Assert.Collection(result.Value,
             f1 =>
             {
-                Assert.Equal(541406104, f1.FlightId);
+                Assert.Equal(541406105, f1.FlightId);
             });
     }
     
@@ -101,16 +100,14 @@ public class FlightServiceTests : ServiceBaseTests
             .ReturnsAsync(new[] {FlightData.InboundFlightEntity, FlightData.InboundFlightEntity2});
         
         var service = mock.Create<FlightService>();
-        var reference = new DateTime(2023, 08, 08, 11, 30, 00);
-        var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
+        var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(30));
 
         Assert.False(result.IsError);
         Assert.NotNull(result.Value);
-        Assert.Single(result.Value);
         Assert.Collection(result.Value,
             f1 =>
             {
-                Assert.Equal(541406100, f1.FlightId);
+                Assert.Equal(541406101, f1.FlightId);
             });
     }
     
@@ -125,19 +122,18 @@ public class FlightServiceTests : ServiceBaseTests
             .ReturnsAsync(new[] {FlightData.InboundFlightEntity, FlightData.InboundFlightEntity2, FlightData.OutboundFlightEntity, FlightData.OutboundFlightEntity2});
         
         var service = mock.Create<FlightService>();
-        var reference = new DateTime(2023, 08, 08, 11, 30, 00);
-        var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(120), reference);
+        var result = await service.GetDelayedFlights(TimeSpan.FromMinutes(30));
 
         Assert.False(result.IsError);
         Assert.NotNull(result.Value);
         Assert.Collection(result.Value,
-            f1 =>
+            df1 =>
             {
-                Assert.Equal(541406100, f1.FlightId);
+                Assert.Equal(541406101, df1.FlightId);
             },
-            f2 =>
+            df2 =>
             {
-                Assert.Equal(541406104, f2.FlightId);
+                Assert.Equal(541406105, df2.FlightId);
             });
     }
 }

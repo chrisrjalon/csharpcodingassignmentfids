@@ -1,4 +1,5 @@
-﻿using FidsCodingAssignment.Data.Models;
+﻿using FidsCodingAssignment.Common.Enumerations;
+using FidsCodingAssignment.Data.Models;
 
 namespace FidsCodingAssignment.Core.Models;
 
@@ -8,6 +9,8 @@ public class InboundFlight : Flight
     /// Flight origin.
     /// </summary>
     public string? Origin { get; set; }
+
+    protected override FlightStatusType FinalStatus => FlightStatusType.Arrived;
 
     public override void Map(FlightEntity flightEntity)
     {

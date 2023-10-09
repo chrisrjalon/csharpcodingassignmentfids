@@ -13,7 +13,7 @@ public interface IFlightService : IService
     /// <summary>
     /// Get all flights that are delayed by a given delta.
     /// </summary>
-    Task<Result<ICollection<Flight>?>> GetDelayedFlights(TimeSpan delta, DateTime? referenceTime = null);
+    Task<Result<ICollection<Flight>?>> GetDelayedFlights(TimeSpan delta);
 
     /// <summary>
     /// Save flight actual departure or arrival time.

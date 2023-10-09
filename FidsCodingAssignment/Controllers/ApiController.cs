@@ -4,9 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FidsCodingAssignment.Controllers;
 
+/// <summary>
+/// Base API controller.
+/// </summary>
 [ApiController]
 public abstract class ApiController : ControllerBase
 {
+    /// <summary>
+    /// Convert errors to a ProblemDetails response.
+    /// </summary>
+    /// <param name="errors"></param>
+    /// <returns></returns>
     protected IActionResult Problem(IEnumerable<Error> errors)
     {
         HttpContext.Items["errors"] = errors;

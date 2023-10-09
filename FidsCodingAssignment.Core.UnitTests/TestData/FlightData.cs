@@ -24,6 +24,7 @@ public class FlightData
             Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00),
+            EstimatedTime = new DateTime(2023, 08, 08, 13, 00, 00),
             GateCode = "E36"
         };
     
@@ -36,6 +37,7 @@ public class FlightData
             Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00),
+            EstimatedTime = new DateTime(2023, 08, 08, 13, 00, 00),
             GateCode = "E36"
         };
     
@@ -48,6 +50,7 @@ public class FlightData
             Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00),
+            EstimatedTime = new DateTime(2023, 08, 08, 14, 35, 00),
             GateCode = "E37"
         };
     
@@ -60,6 +63,7 @@ public class FlightData
             Bound = FlightBoundType.Outbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00),
+            EstimatedTime = new DateTime(2023, 08, 08, 14, 35, 00),
             GateCode = "E37"
         };
     
@@ -71,7 +75,8 @@ public class FlightData
             AirlineCode = "SY",
             Bound = FlightBoundType.Inbound,
             FlightType = FlightMovementType.International,
-            ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00)
+            ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00),
+            EstimatedTime = new DateTime(2023, 08, 08, 13, 00, 00)
         };
     
     public static FlightEntity InboundFlightEntity =>
@@ -82,7 +87,8 @@ public class FlightData
             AirlineCode = "SY",
             Bound = FlightBoundType.Inbound,
             FlightType = FlightMovementType.International,
-            ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00)
+            ScheduledTime = new DateTime(2023, 08, 08, 13, 00, 00),
+            EstimatedTime = new DateTime(2023, 08, 08, 13, 00, 00)
         };
     
     public static InboundFlight InboundFlight2 =>
@@ -94,6 +100,7 @@ public class FlightData
             Bound = FlightBoundType.Inbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00),
+            EstimatedTime = new DateTime(2023, 08, 08, 14, 35, 00)
         };
     
     public static FlightEntity InboundFlightEntity2 =>
@@ -105,5 +112,6 @@ public class FlightData
             Bound = FlightBoundType.Inbound,
             FlightType = FlightMovementType.International,
             ScheduledTime = new DateTime(2023, 08, 08, 14, 00, 00),
+            EstimatedTime = new DateTime(2023, 08, 08, 14, 35, 00)
         };
 }

@@ -1,6 +1,7 @@
 using System.Reflection;
 using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Core;
+using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Data;
 using FidsCodingAssignment.Middlewares;
 

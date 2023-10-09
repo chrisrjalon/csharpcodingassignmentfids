@@ -3,11 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FidsCodingAssignment.Controllers;
 
+/// <summary>
+/// Gates API controller.
+/// </summary>
 [Route("api/[controller]")]
 public class GatesController : ApiController
 {
     private readonly IGateService _gateService;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GatesController"/> class.
+    /// </summary>
+    /// <param name="gateService"></param>
     public GatesController(IGateService gateService)
     {
         _gateService = gateService;

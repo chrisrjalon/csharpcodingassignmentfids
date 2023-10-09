@@ -1,7 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Models;
-using FidsCodingAssignment.Core.Helpers;
 using FidsCodingAssignment.Data.Models;
 using DateTime = System.DateTime;
 
@@ -44,6 +42,11 @@ public abstract class Flight
     /// Scheduled arrival or departure time of the flight.
     /// </summary>
     public DateTime ScheduledTime { get; set; }
+
+    /// <summary>
+    /// Estimated arrival or departure time of the flight.
+    /// </summary>
+    public DateTime EstimatedTime { get; set; }
     
     /// <summary>
     /// Actual arrival or departure time of the flight.
@@ -55,28 +58,20 @@ public abstract class Flight
     /// </summary>
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public FlightMovementType FlightType { get; set; }
-
-    /// <summary>
-    /// Current status of the flight.
-    /// </summary>
+    
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public FlightStatusType FlightStatus { get; set; }
+    public FlightStatusType? FlightStatus { get; set; }
 
     /// <summary>
     /// Collection of code share flights.
     /// </summary>
     public ICollection<Flight>? CodeShareFlights { get; set; }
     
-    protected virtual void SetStatus(FlightConfiguration flightConfiguration, DateTime? referenceTime = null)
-    {
-        FlightStatus = FlightHelper.GetFlightStatus(this, flightConfiguration, referenceTime);
-    }
+    protected abstract FlightStatusType FinalStatus { get; }
     
-    public bool IsFlightDelayed(TimeSpan delta, DateTime? referenceTime = null)
+    public bool IsFlightDelayed(TimeSpan delta)
     {
-        referenceTime ??= DateTime.UtcNow;
-
-        return ScheduledTime < referenceTime.Value.Add(delta);
+        return ScheduledTime.Add(delta) < EstimatedTime;
     }
     
     public virtual void Map(FlightEntity flightEntity)
@@ -87,11 +82,24 @@ public abstract class Flight
         ParentFlightId = flightEntity.ParentFlightId;
         Bound = flightEntity.Bound;
         ScheduledTime = flightEntity.ScheduledTime;
+        EstimatedTime = flightEntity.EstimatedTime;
         ActualTime = flightEntity.ActualTime;
         FlightType = flightEntity.FlightType;
         CodeShareFlights = flightEntity.CodeShareFlights?.Select(Create).ToList();
     }
 
+    protected virtual void SetStatus(FlightConfiguration flightConfiguration, DateTime? referenceTime = null)
+    {
+        if (ActualTime.HasValue)
+            FlightStatus = FinalStatus;
+    }
+    
+    public Flight WithStatus(FlightStatusType flightStatus)
+    {
+        FlightStatus = flightStatus;
+        return this;
+    }
+    
     private static readonly Dictionary<FlightBoundType, Func<Flight>> FlightLookup = new()
     {
         {FlightBoundType.Outbound, () => new OutboundFlight()},

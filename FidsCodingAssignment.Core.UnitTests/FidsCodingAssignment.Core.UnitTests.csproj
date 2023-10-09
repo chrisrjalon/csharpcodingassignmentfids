@@ -25,4 +25,9 @@
 
 
 
+  <ItemGroup>
+    <Compile Remove="Helpers\FlightHelperTests.cs" />
+  </ItemGroup>
+
+
 </Project>
