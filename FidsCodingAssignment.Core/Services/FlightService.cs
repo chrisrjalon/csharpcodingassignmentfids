@@ -3,8 +3,6 @@ using FidsCodingAssignment.Common.Extensions;
 using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Common.Models.Results;
 using FidsCodingAssignment.Core.Common.Errors;
-using FidsCodingAssignment.Core.Helpers;
-using FidsCodingAssignment.Core.Mappers;
 using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Data.Repositories;
 using Microsoft.Extensions.Options;
@@ -24,50 +22,39 @@ public class FlightService : ServiceBase, IFlightService
         _flightConfiguration = flightConfigurationOptions.Value;
     }
 
-    public async Task<Result<FlightStatus>> GetFlightStatus(
+    public async Task<Result<Flight>> GetFlight(
         string airlineCode,
         int flightNumber,
         DateTime? referenceTime = null)
     {
-        var flight = await _flightRepository.GetFlight(airlineCode, flightNumber);
+        var flightEntity = await _flightRepository.GetFlight(airlineCode, flightNumber);
 
-        if (flight == null)
+        if (flightEntity == null)
             return Errors.Flight.NotFound;
         
-        var status = FlightHelper.GetFlightStatus(flight.Map(), _flightConfiguration, referenceTime);
+        var flight = Flight.CreateWithStatus(flightEntity, _flightConfiguration, referenceTime);
 
-        return new FlightStatus
-        {
-            FlightId = flight.Id,
-            AirlineCode = flight.AirlineCode,
-            FlightNumber = flight.FlightNumber,
-            ScheduledTime = flight.ScheduledTime,
-            ActualTime = flight.ActualTime,
-            Bound = flight.Bound,
-            FlightType = flight.FlightType,
-            Status = status
-        };
+        return flight;
     }
 
     public async Task<Result<ICollection<Flight>?>> GetDelayedFlights(TimeSpan delta, DateTime? referenceTime = null)
     {
-        referenceTime ??= DateTime.UtcNow;
-        
-        var activeFlights = await _flightRepository.GetActiveFlights();
+        var activeFlights = (await _flightRepository.GetActiveFlights())?
+            .Select(fe => Flight.CreateWithStatus(fe, _flightConfiguration, referenceTime))?
+            .ToList();
 
         var delayedFlights = activeFlights?
-            .Where(x => x.ScheduledTime < referenceTime.Value.Add(delta));
+            .Where(x => x.IsFlightDelayed(delta, referenceTime))?
+            .ToList();
 
-        var result = delayedFlights?.Select(x => x.Map()).ToList();
-
-        if (result.IsNullOrEmpty())
-            return result;
+        if (delayedFlights.IsNullOrEmpty())
+            return delayedFlights;
         
         // in this case we want to override the status of the flight to "Delayed"
-        foreach (var flightResult in result!)
-            flightResult.FlightStatus = FlightStatusType.Delayed;
+        foreach (var flight in delayedFlights!)
+            flight.FlightStatus = FlightStatusType.Delayed;
         
-        return result;
+        return delayedFlights;
     }
 
     public async Task<Result> RecordFlightActualTime(string airlineCode, int flightNumber, DateTime actualTime)

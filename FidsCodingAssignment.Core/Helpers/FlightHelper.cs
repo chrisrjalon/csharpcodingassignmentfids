@@ -37,14 +37,4 @@ public static class FlightHelper
         
         return FlightStatusType.OnTime;
     }
-    
-    public static bool IsFlightAtGate(DateTime scheduledTime, FlightConfiguration flightConfiguration, DateTime? referenceTime = null)
-    {
-        referenceTime ??= DateTime.UtcNow;
-        
-        var flightAtGateEarliestTime = scheduledTime.AddMinutes(-flightConfiguration.FlightAtGateWindow);
-        var flightAtGateLatestTime = flightAtGateEarliestTime.AddMinutes(flightConfiguration.FlightAtGateWindow);
-        
-        return referenceTime.Value > flightAtGateEarliestTime && referenceTime.Value < flightAtGateLatestTime;
-    }
 }

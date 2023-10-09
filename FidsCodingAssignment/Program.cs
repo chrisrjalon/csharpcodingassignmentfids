@@ -1,3 +1,4 @@
+using System.Reflection;
 using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Core;
 using FidsCodingAssignment.Data;
@@ -7,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+    });
 
     builder.Services.AddData();
     builder.Services.AddCore();

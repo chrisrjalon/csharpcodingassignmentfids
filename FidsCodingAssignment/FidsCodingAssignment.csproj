@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,5 @@
     <ProjectReference Include="..\FidsCodingAssignment.Core\FidsCodingAssignment.Core.csproj" />
     <ProjectReference Include="..\FidsCodingAssignment.Data\FidsCodingAssignment.Data.csproj" />
   </ItemGroup>
-
-
+  
 </Project>

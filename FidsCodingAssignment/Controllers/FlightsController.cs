@@ -22,7 +22,7 @@ public class FlightsController : ApiController
     [HttpGet("{airlineCode}/{flightNumber}/status")]
     public async Task<IActionResult> GetFlightStatus(string airlineCode, int flightNumber)
     {
-        var result = await _flightService.GetFlightStatus(airlineCode, flightNumber);
+        var result = await _flightService.GetFlight(airlineCode, flightNumber);
         return result.Match(
             Ok,
             Problem);
@@ -43,7 +43,7 @@ public class FlightsController : ApiController
     }
     
     /// <summary>
-    /// Records the actual departure and arrival times of a flight.
+    /// Records the actual departure/arrival time of a flight.
     /// </summary>
     /// <param name="airlineCode">Code of the airline operating the flight.</param>
     /// <param name="flightNumber">Flight number assigned to the flight.</param>

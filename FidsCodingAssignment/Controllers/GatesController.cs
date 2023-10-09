@@ -1,6 +1,4 @@
-﻿using FidsCodingAssignment.Common.Models.Results;
-using FidsCodingAssignment.Core.Models;
-using FidsCodingAssignment.Core.Services;
+﻿using FidsCodingAssignment.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FidsCodingAssignment.Controllers;
@@ -16,7 +14,7 @@ public class GatesController : ApiController
     }
 
     /// <summary>
-    /// Gets the active flight currently assigned to the gate.
+    /// Gets the flight currently at a specific gate.
     /// </summary>
     /// <param name="gateCode">Unique code assigned to the gate.</param>
     /// <returns>Flight details.</returns>

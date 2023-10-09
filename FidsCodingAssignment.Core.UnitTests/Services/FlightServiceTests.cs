@@ -24,7 +24,7 @@ public class FlightServiceTests : ServiceBaseTests
         
         var service = mock.Create<FlightService>();
         
-        var result = await service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>());
+        var result = await service.GetFlight(It.IsAny<string>(), It.IsAny<int>());
         
         Assert.True(result.IsError);
         Assert.NotNull(result.Errors);
@@ -40,14 +40,14 @@ public class FlightServiceTests : ServiceBaseTests
 
         mockFlightRepo
             .Setup(x => x.GetFlight(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(FlightData.OutboundFlight);
+            .ReturnsAsync(FlightData.OutboundFlightEntity);
         
         var service = mock.Create<FlightService>();
-        var result = await service.GetFlightStatus(It.IsAny<string>(), It.IsAny<int>());
+        var result = await service.GetFlight(It.IsAny<string>(), It.IsAny<int>());
         
         Assert.False(result.IsError);
         Assert.Equal(541406104, result.Value.FlightId);
-        Assert.Equal(FlightStatusType.Delayed, result.Value.Status);
+        Assert.Equal(FlightStatusType.Delayed, result.Value.FlightStatus);
     }
     
     [Fact]
@@ -74,7 +74,7 @@ public class FlightServiceTests : ServiceBaseTests
         
         mockFlightRepo
             .Setup(x => x.GetActiveFlights())
-            .ReturnsAsync(new[] {FlightData.OutboundFlight, FlightData.OutboundFlight2});
+            .ReturnsAsync(new[] {FlightData.OutboundFlightEntity, FlightData.OutboundFlightEntity2});
         
         var service = mock.Create<FlightService>();
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
@@ -86,7 +86,7 @@ public class FlightServiceTests : ServiceBaseTests
         Assert.Collection(result.Value,
             f1 =>
             {
-                Assert.Equal(541406104, f1.Id);
+                Assert.Equal(541406104, f1.FlightId);
             });
     }
     
@@ -98,7 +98,7 @@ public class FlightServiceTests : ServiceBaseTests
         
         mockFlightRepo
             .Setup(x => x.GetActiveFlights())
-            .ReturnsAsync(new[] {FlightData.InboundFlight, FlightData.InboundFlight2});
+            .ReturnsAsync(new[] {FlightData.InboundFlightEntity, FlightData.InboundFlightEntity2});
         
         var service = mock.Create<FlightService>();
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
@@ -110,7 +110,7 @@ public class FlightServiceTests : ServiceBaseTests
         Assert.Collection(result.Value,
             f1 =>
             {
-                Assert.Equal(541406100, f1.Id);
+                Assert.Equal(541406100, f1.FlightId);
             });
     }
     
@@ -122,7 +122,7 @@ public class FlightServiceTests : ServiceBaseTests
         
         mockFlightRepo
             .Setup(x => x.GetActiveFlights())
-            .ReturnsAsync(new[] {FlightData.InboundFlight, FlightData.InboundFlight2, FlightData.OutboundFlight, FlightData.OutboundFlight2});
+            .ReturnsAsync(new[] {FlightData.InboundFlightEntity, FlightData.InboundFlightEntity2, FlightData.OutboundFlightEntity, FlightData.OutboundFlightEntity2});
         
         var service = mock.Create<FlightService>();
         var reference = new DateTime(2023, 08, 08, 11, 30, 00);
@@ -133,11 +133,11 @@ public class FlightServiceTests : ServiceBaseTests
         Assert.Collection(result.Value,
             f1 =>
             {
-                Assert.Equal(541406100, f1.Id);
+                Assert.Equal(541406100, f1.FlightId);
             },
             f2 =>
             {
-                Assert.Equal(541406104, f2.Id);
+                Assert.Equal(541406104, f2.FlightId);
             });
     }
 }

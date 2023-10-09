@@ -17,6 +17,7 @@
     <ProjectReference Include="..\FidsCodingAssignment.Common\FidsCodingAssignment.Common.csproj" />
     <ProjectReference Include="..\FidsCodingAssignment.TestData\FidsCodingAssignment.TestData.csproj" />
 
+
   </ItemGroup>
 
 

@@ -1,6 +1,5 @@
 ﻿using FidsCodingAssignment.Common.Enumerations;
 using FidsCodingAssignment.Core.Helpers;
-using FidsCodingAssignment.Core.Mappers;
 using FidsCodingAssignment.Core.UnitTests.TestData;
 using Xunit;
 
@@ -14,7 +13,7 @@ public class FlightHelperTests
         var flight = FlightData.InboundFlight;
 
         var referenceTime = new DateTime(2023, 08, 08, 12, 00, 00);
-        var result = FlightHelper.GetFlightStatus(flight.Map(), FlightData.FlightConfig, referenceTime);
+        var result = FlightHelper.GetFlightStatus(flight, FlightData.FlightConfig, referenceTime);
         
         Assert.Equal(FlightStatusType.OnTime, result);
     }
@@ -25,7 +24,7 @@ public class FlightHelperTests
         var flight = FlightData.InboundFlight;
 
         var referenceTime = new DateTime(2023, 08, 08, 14, 00, 00);
-        var result = FlightHelper.GetFlightStatus(flight.Map(), FlightData.FlightConfig, referenceTime);
+        var result = FlightHelper.GetFlightStatus(flight, FlightData.FlightConfig, referenceTime);
         
         Assert.Equal(FlightStatusType.Delayed, result);
     }
@@ -37,7 +36,7 @@ public class FlightHelperTests
         flight.ActualTime = new DateTime(2023, 08, 08, 13, 00, 00);
 
         var referenceTime = new DateTime(2023, 08, 08, 14, 00, 00);
-        var result = FlightHelper.GetFlightStatus(flight.Map(), FlightData.FlightConfig, referenceTime);
+        var result = FlightHelper.GetFlightStatus(flight, FlightData.FlightConfig, referenceTime);
         
         Assert.Equal(FlightStatusType.Arrived, result);
     }
@@ -48,7 +47,7 @@ public class FlightHelperTests
         var flight = FlightData.OutboundFlight;
 
         var referenceTime = new DateTime(2023, 08, 08, 10, 00, 00);
-        var result = FlightHelper.GetFlightStatus(flight.Map(), FlightData.FlightConfig, referenceTime);
+        var result = FlightHelper.GetFlightStatus(flight, FlightData.FlightConfig, referenceTime);
         
         Assert.Equal(FlightStatusType.OnTime, result);
     }
@@ -59,7 +58,7 @@ public class FlightHelperTests
         var flight = FlightData.OutboundFlight;
 
         var referenceTime = new DateTime(2023, 08, 08, 12, 00, 00);
-        var result = FlightHelper.GetFlightStatus(flight.Map(), FlightData.FlightConfig, referenceTime);
+        var result = FlightHelper.GetFlightStatus(flight, FlightData.FlightConfig, referenceTime);
         
         Assert.Equal(FlightStatusType.Boarding, result);
     }
@@ -70,7 +69,7 @@ public class FlightHelperTests
         var flight = FlightData.OutboundFlight;
 
         var referenceTime = new DateTime(2023, 08, 08, 12, 45, 00);
-        var result = FlightHelper.GetFlightStatus(flight.Map(), FlightData.FlightConfig, referenceTime);
+        var result = FlightHelper.GetFlightStatus(flight, FlightData.FlightConfig, referenceTime);
         
         Assert.Equal(FlightStatusType.Closed, result);
     }
@@ -82,7 +81,7 @@ public class FlightHelperTests
         flight.ActualTime = new DateTime(2023, 08, 08, 13, 05, 00);
 
         var referenceTime = new DateTime(2023, 08, 08, 12, 00, 00);
-        var result = FlightHelper.GetFlightStatus(flight.Map(), FlightData.FlightConfig, referenceTime);
+        var result = FlightHelper.GetFlightStatus(flight, FlightData.FlightConfig, referenceTime);
         
         Assert.Equal(FlightStatusType.Departed, result);
     }

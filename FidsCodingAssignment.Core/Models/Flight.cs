@@ -1,5 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 using FidsCodingAssignment.Common.Enumerations;
+using FidsCodingAssignment.Common.Models;
+using FidsCodingAssignment.Core.Helpers;
+using FidsCodingAssignment.Data.Models;
 using DateTime = System.DateTime;
 
 namespace FidsCodingAssignment.Core.Models;
@@ -9,7 +12,7 @@ public abstract class Flight
     /// <summary>
     /// Flight Id.
     /// </summary>
-    public int Id { get; set; }
+    public int FlightId { get; set; }
     
     /// <summary>
     /// Flight number.
@@ -24,7 +27,7 @@ public abstract class Flight
     /// <summary>
     /// Flag indicating whether this is a CodeShare flight.
     /// </summary>
-    public bool IsCodeShare { get; set; }
+    public bool IsCodeShare => CodeShareFlights?.Any() ?? false || ParentFlightId.HasValue;
     
     /// <summary>
     /// Parent flight Id.
@@ -63,4 +66,51 @@ public abstract class Flight
     /// Collection of code share flights.
     /// </summary>
     public ICollection<Flight>? CodeShareFlights { get; set; }
+    
+    protected virtual void SetStatus(FlightConfiguration flightConfiguration, DateTime? referenceTime = null)
+    {
+        FlightStatus = FlightHelper.GetFlightStatus(this, flightConfiguration, referenceTime);
+    }
+    
+    public bool IsFlightDelayed(TimeSpan delta, DateTime? referenceTime = null)
+    {
+        referenceTime ??= DateTime.UtcNow;
+
+        return ScheduledTime < referenceTime.Value.Add(delta);
+    }
+    
+    public virtual void Map(FlightEntity flightEntity)
+    {
+        FlightId = flightEntity.Id;
+        AirlineCode = flightEntity.AirlineCode;
+        FlightNumber = flightEntity.FlightNumber;
+        ParentFlightId = flightEntity.ParentFlightId;
+        Bound = flightEntity.Bound;
+        ScheduledTime = flightEntity.ScheduledTime;
+        ActualTime = flightEntity.ActualTime;
+        FlightType = flightEntity.FlightType;
+        CodeShareFlights = flightEntity.CodeShareFlights?.Select(Create).ToList();
+    }
+
+    private static readonly Dictionary<FlightBoundType, Func<Flight>> FlightLookup = new()
+    {
+        {FlightBoundType.Outbound, () => new OutboundFlight()},
+        {FlightBoundType.Inbound, () => new InboundFlight()}
+    };
+    
+    public static Flight Create(FlightEntity flightEntity)
+    {
+        var flight = FlightLookup[flightEntity.Bound]();
+        flight.Map(flightEntity);
+        
+        return flight;
+    }
+    
+    public static Flight CreateWithStatus(FlightEntity flightEntity, FlightConfiguration flightConfiguration, DateTime? referenceTime = null)
+    {
+        var flight = Create(flightEntity);
+        flight.SetStatus(flightConfiguration, referenceTime);
+        
+        return flight;
+    }
 }

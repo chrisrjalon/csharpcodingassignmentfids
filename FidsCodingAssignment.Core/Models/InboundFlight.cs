@@ -1,4 +1,6 @@
-﻿namespace FidsCodingAssignment.Core.Models;
+﻿using FidsCodingAssignment.Data.Models;
+
+namespace FidsCodingAssignment.Core.Models;
 
 public class InboundFlight : Flight
 {
@@ -6,4 +8,10 @@ public class InboundFlight : Flight
     /// Flight origin.
     /// </summary>
     public string? Origin { get; set; }
+
+    public override void Map(FlightEntity flightEntity)
+    {
+        base.Map(flightEntity);
+        Origin = flightEntity.City;
+    }
 }
