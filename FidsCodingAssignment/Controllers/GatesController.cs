@@ -1,38 +1,36 @@
-﻿using FidsCodingAssignment.Common.Exceptions;
-using FidsCodingAssignment.Common.Models;
-using FidsCodingAssignment.Core.Models;
-using FidsCodingAssignment.Core.Services;
+﻿using FidsCodingAssignment.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FidsCodingAssignment.Controllers;
 
-[ApiController]
+/// <summary>
+/// Gates API controller.
+/// </summary>
 [Route("api/[controller]")]
-public class GatesController : ControllerBase
+public class GatesController : ApiController
 {
     private readonly IGateService _gateService;
     
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GatesController"/> class.
+    /// </summary>
+    /// <param name="gateService"></param>
     public GatesController(IGateService gateService)
     {
         _gateService = gateService;
     }
 
     /// <summary>
-    /// Gets the active flight currently assigned to the gate.
+    /// Gets the flight currently at a specific gate.
     /// </summary>
     /// <param name="gateCode">Unique code assigned to the gate.</param>
     /// <returns>Flight details.</returns>
     [HttpGet("{gateCode}/active-flight")]
-    public async Task<FidsApiResponse<Flight?>> GetActiveFlight(string gateCode)
+    public async Task<IActionResult> GetActiveFlight(string gateCode)
     {
-        try
-        {
-            var flight = await _gateService.GetActiveFlight(gateCode);
-            return FidsApiResponse<Flight?>.Success(flight);
-        }
-        catch (FidsException ex)
-        {
-            return FidsApiResponse<Flight?>.Error(ex.Message, ex.Category);
-        }
+        var result = await _gateService.GetActiveFlight(gateCode);
+        return result.Match(
+            Ok,
+            Problem);
     }
 }

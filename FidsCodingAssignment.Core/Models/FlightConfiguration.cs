@@ -1,4 +1,4 @@
-﻿namespace FidsCodingAssignment.Common.Models;
+﻿namespace FidsCodingAssignment.Core.Models;
 
 public class FlightConfiguration
 {
@@ -13,7 +13,7 @@ public class FlightConfiguration
     public int BoardingDuration { get; set; }
     
     /// <summary>
-    /// Time in minutes for flight to be at the gate before departure.
+    /// Time in minutes for flight to be considered at the gate before and after scheduled time.
     /// </summary>
     public int FlightAtGateWindow { get; set; }
 }

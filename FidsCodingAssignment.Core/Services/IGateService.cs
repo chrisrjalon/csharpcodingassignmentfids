@@ -1,8 +1,9 @@
-﻿using FidsCodingAssignment.Core.Models;
+﻿using FidsCodingAssignment.Common.Models.Results;
+using FidsCodingAssignment.Core.Models;
 
 namespace FidsCodingAssignment.Core.Services;
 
 public interface IGateService : IService
 {
-    Task<Flight?> GetActiveFlight(string gateCode, DateTime? referenceTime = null);
+    Task<Result<Flight?>> GetActiveFlight(string gateCode, DateTime? referenceTime = null);
 }

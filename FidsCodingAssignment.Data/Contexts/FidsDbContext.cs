@@ -1,5 +1,8 @@
-﻿using FidsCodingAssignment.Common.Interfaces;
+﻿using FidsCodingAssignment.Common.Enumerations;
+using FidsCodingAssignment.Common.Interfaces;
 using FidsCodingAssignment.Data.Models;
+using FidsCodingAssignment.TestData;
+using FidsCodingAssignment.TestData.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FidsCodingAssignment.Data.Contexts;
@@ -9,12 +12,16 @@ namespace FidsCodingAssignment.Data.Contexts;
 /// </summary>
 public class FidsDbContext : DbContext, IContext
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    private readonly TestDataService _testDataService;
+    public DbSet<FlightEntity> Flights { get; set; } = null!;
+    
+    public FidsDbContext(
+        DbContextOptions<FidsDbContext> options,
+        TestDataService testDataService) : base(options)
     {
-        optionsBuilder.UseInMemoryDatabase(databaseName: "FidsDb");
+        _testDataService = testDataService;
+        InitializeTestData();
     }
-
-    public DbSet<FlightEntity> Flights { get; set; }
 
     public new IQueryable<TEntity> Set<TEntity>() where TEntity : class, IEntity
     {
@@ -29,5 +36,35 @@ public class FidsDbContext : DbContext, IContext
     public async Task<ICollection<TEntity>?> FindAllAsync<TEntity>() where TEntity : class, IEntity
     {
         return await Set<TEntity>().ToListAsync();
+    }
+
+    private void InitializeTestData()
+    {
+        if (_testDataService.DataInitialized)
+            return;
+        
+        var testData = _testDataService.GetTestData();
+        var flights = MapToFlightEntities(testData);
+        Flights.AddRange(flights);
+        SaveChanges();
+    }
+
+    private ICollection<FlightEntity> MapToFlightEntities(TestDataModel testData)
+    {
+        return testData.Flights.Select(x =>
+            new FlightEntity
+            {
+                Id = x.FlightId,
+                FlightNumber = x.FlightNumber,
+                AirlineCode = x.AirlineCode,
+                ScheduledTime = x.ScheduleTime,
+                EstimatedTime = x.EstimatedTime,
+                ActualTime = x.ActualTime,
+                Bound = x.ArrDep == "DEP" ? FlightBoundType.Outbound : FlightBoundType.Inbound,
+                GateCode = x.GateCode,
+                FlightType = x.FlightType == "D" ? FlightMovementType.Domestic : FlightMovementType.International,
+                ParentFlightId = x.ParentFlightId == 0 ? null : x.ParentFlightId,
+                City = x.CityName
+            }).ToList();
     }
 }

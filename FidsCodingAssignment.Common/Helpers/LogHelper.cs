@@ -1,6 +1,6 @@
 ﻿namespace FidsCodingAssignment.Common.Helpers;
 
-public class LogHelper
+public static class LogHelper
 {
     public static void LogException(Exception exception)
     {

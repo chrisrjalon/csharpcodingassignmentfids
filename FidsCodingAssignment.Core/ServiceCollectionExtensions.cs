@@ -5,11 +5,11 @@ namespace FidsCodingAssignment.Core;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCoreServices(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddCore(this IServiceCollection services)
     {
-        serviceCollection.AddScoped<IFlightService, FlightService>();
-        serviceCollection.AddScoped<IGateService, GateService>();
+        services.AddScoped<IFlightService, FlightService>();
+        services.AddScoped<IGateService, GateService>();
         
-        return serviceCollection;
+        return services;
     }
 }

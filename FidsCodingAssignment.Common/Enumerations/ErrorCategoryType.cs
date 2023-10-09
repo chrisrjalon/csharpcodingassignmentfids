@@ -1,6 +1,6 @@
 ﻿namespace FidsCodingAssignment.Common.Enumerations;
 
-public enum ExceptionCategoryType
+public enum ErrorCategoryType
 {
     Error = 1,
     Warning = 2,
