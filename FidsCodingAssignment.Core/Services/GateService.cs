@@ -1,5 +1,4 @@
 ﻿using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Common.Models.Results;
 using FidsCodingAssignment.Core.Common.Errors;
 using FidsCodingAssignment.Core.Models;
@@ -10,14 +9,12 @@ namespace FidsCodingAssignment.Core.Services;
 
 public class GateService : ServiceBase, IGateService
 {
-    private readonly IFlightRepository _flightRepository;
     private readonly FlightConfiguration _flightConfiguration;
     
     public GateService(
-        IFlightRepository flightRepository, 
-        IOptions<FlightConfiguration> flightConfigurationOptions)
+        IUnitOfWork uow, 
+        IOptions<FlightConfiguration> flightConfigurationOptions) : base(uow)
     {
-        _flightRepository = flightRepository;
         _flightConfiguration = flightConfigurationOptions.Value;
     }
     
@@ -26,7 +23,7 @@ public class GateService : ServiceBase, IGateService
         if (string.IsNullOrWhiteSpace(gateCode))
             return Errors.Gate.NotFound;
 
-        var flights = (await _flightRepository.GetFlightsAssignedToGate(gateCode))?
+        var flights = (await Uow.Flights.GetFlightsAssignedToGate(gateCode))?
             .Where(x => x.Bound is FlightBoundType.Outbound)?
             .Select(fe => Flight.CreateWithStatus(fe, _flightConfiguration, referenceTime))?
             .Cast<OutboundFlight>()

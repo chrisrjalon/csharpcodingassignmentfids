@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Data.Models;
 
 namespace FidsCodingAssignment.Core.Models;

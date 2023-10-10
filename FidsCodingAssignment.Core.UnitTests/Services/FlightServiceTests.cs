@@ -20,7 +20,7 @@ public class FlightServiceTests : ServiceBaseTests
         var mockFlightRepo = mock.Mock<IFlightRepository>();
         
         mockFlightRepo
-            .Setup(x => x.Get(It.IsAny<int>()))
+            .Setup(x => x.GetFlight(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync((FlightEntity?) null);
         
         var service = mock.Create<FlightService>();

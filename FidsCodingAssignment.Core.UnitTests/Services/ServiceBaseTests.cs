@@ -1,5 +1,4 @@
 ﻿using Autofac.Extras.Moq;
-using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Core.UnitTests.TestData;
 using Microsoft.Extensions.Options;

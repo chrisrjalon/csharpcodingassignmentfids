@@ -6,21 +6,28 @@ namespace FidsCodingAssignment.TestData;
 
 public class TestDataService
 {
+    private const string ResourceName = "FidsCodingAssignment.TestData.Resources.rawData.json";
     public bool DataInitialized { get; private set; }
-    
-    public TestDataModel GetTestData()
+
+    public TestDataModel TestData { get; private set; } = null!;
+
+    public TestDataService()
     {
-        const string resourceName = "FidsCodingAssignment.TestData.Resources.rawData.json";
+        if (DataInitialized) 
+            return;
         
+        Initialize();
+    }
+    
+    private void Initialize()
+    {
         var assembly = Assembly.GetExecutingAssembly();
         
-        using var stream = assembly.GetManifestResourceStream(resourceName);
+        using var stream = assembly.GetManifestResourceStream(ResourceName);
         using var reader = new StreamReader(stream!);
         
         var rawText = reader.ReadToEnd();
-        var testData = JsonSerializer.Deserialize<TestDataModel>(rawText);
+        TestData = JsonSerializer.Deserialize<TestDataModel>(rawText)!;
         DataInitialized = true;
-        
-        return testData!;
     }
 }

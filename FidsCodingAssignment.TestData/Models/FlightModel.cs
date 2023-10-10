@@ -31,7 +31,7 @@ public class FlightModel
     public string? Suffix { get; set; }
 
     [JsonPropertyName("viaairportcodes")]
-    public string[]? ViaAirportCodes { get; set; }
+    public string? ViaAirportCodes { get; set; }
 
     [JsonPropertyName("sched_time")]
     public DateTime ScheduleTime { get; set; }

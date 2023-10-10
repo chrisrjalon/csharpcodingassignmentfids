@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace FidsCodingAssignment.Common.Enumerations;
+﻿namespace FidsCodingAssignment.Common.Enumerations;
 
 public enum BoardingStatusType
 {

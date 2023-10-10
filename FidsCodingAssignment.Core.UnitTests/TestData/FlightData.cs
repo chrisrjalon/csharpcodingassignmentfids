@@ -1,5 +1,4 @@
 ﻿using FidsCodingAssignment.Common.Enumerations;
-using FidsCodingAssignment.Common.Models;
 using FidsCodingAssignment.Core.Models;
 using FidsCodingAssignment.Data.Models;
 

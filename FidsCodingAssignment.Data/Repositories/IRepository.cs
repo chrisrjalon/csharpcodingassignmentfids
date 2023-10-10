@@ -2,7 +2,6 @@
 
 namespace FidsCodingAssignment.Data.Repositories;
 
-public interface IRepository<TEntity> : IUnitOfWork where TEntity : class, IEntity
+public interface IRepository<TEntity> where TEntity : class, IEntity
 {
-    Task<TEntity?> Get(int id);
 }

@@ -9,14 +9,12 @@ namespace FidsCodingAssignment.Core.Services;
 
 public class FlightService : ServiceBase, IFlightService
 {
-    private readonly IFlightRepository _flightRepository;
     private readonly FlightConfiguration _flightConfiguration;
     
     public FlightService(
-        IFlightRepository flightRepository,
-        IOptions<FlightConfiguration> flightConfigurationOptions)
+        IUnitOfWork uow,
+        IOptions<FlightConfiguration> flightConfigurationOptions) : base(uow)
     {
-        _flightRepository = flightRepository;
         _flightConfiguration = flightConfigurationOptions.Value;
     }
 
@@ -25,11 +23,12 @@ public class FlightService : ServiceBase, IFlightService
         int flightNumber,
         DateTime? referenceTime = null)
     {
-        var flightEntity = await _flightRepository.GetFlight(airlineCode, flightNumber);
+        var flightEntity = await Uow.Flights.GetFlight(airlineCode, flightNumber);
 
         if (flightEntity == null)
             return Errors.Flight.NotFound;
-        
+
+        flightEntity.CodeShareFlights = await Uow.Flights.GetCodeShareFlights(flightEntity.Id);
         var flight = Flight.CreateWithStatus(flightEntity, _flightConfiguration, referenceTime);
 
         return flight;
@@ -37,7 +36,7 @@ public class FlightService : ServiceBase, IFlightService
 
     public async Task<Result<ICollection<Flight>?>> GetDelayedFlights(TimeSpan delta)
     {
-        var activeFlights = (await _flightRepository.GetActiveFlights())
+        var activeFlights = (await Uow.Flights.GetActiveFlights())
             .Select(Flight.Create)?
             .ToList();
 
@@ -52,14 +51,12 @@ public class FlightService : ServiceBase, IFlightService
 
     public async Task<Result> RecordFlightActualTime(string airlineCode, int flightNumber, DateTime actualTime)
     {
-        var flight = await _flightRepository.GetFlight(airlineCode, flightNumber);
+        var flight = await Uow.Flights.GetFlight(airlineCode, flightNumber);
 
         if (flight == null)
             return Errors.Flight.NotFound;
         
         flight.ActualTime = actualTime;
-        
-        await _flightRepository.SaveChangesAsync();
         
         return Result.Success;
     }

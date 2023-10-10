@@ -27,7 +27,7 @@ public class FlightsController : ApiController
     /// <param name="flightNumber">Flight number assigned to the flight.</param>
     /// <returns>A flight status.</returns>
     [HttpGet("{airlineCode}/{flightNumber}/status")]
-    public async Task<IActionResult> GetFlightStatus(string airlineCode, int flightNumber)
+    public async Task<IActionResult> GetFlight(string airlineCode, int flightNumber)
     {
         var result = await _flightService.GetFlight(airlineCode, flightNumber);
         return result.Match(
